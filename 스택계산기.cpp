@@ -29,7 +29,7 @@ void postfix(void);
 
 char infix_expr[MAX_EXPR_SIZE];
 char postfix_expr[MAX_EXPR_SIZE];
-/*isp와 icp 배열 – 인덱스는 연산자 lparen, rparen, plus, 
+/*isp와 icp 배열 – 인덱스는 연산자 lparen, rparen, plus, sdfasdfasdfasdsadfsafd
 minus, times, divide, mod, eos의 우선순위 값 */
 /*
 static int isp[] = { 0,19,12,12,13,13,13,0 };
