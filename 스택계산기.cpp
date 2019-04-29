@@ -59,3 +59,4 @@ void stackEmpty(void)
 	fprintf(stderr, "\nStack is emoty, cannot delete element\n");
 	exit(EXIT_FAILURE);
 }
+dfdfdfdfdfdf
