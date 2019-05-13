@@ -113,7 +113,6 @@ void Delete_Schedule()
 
 void Insert_outside()
 {
-	people tempData = NULL;
 	char search_name[10]; //검색할 직원의 이름
 	int top = -1, day;
 	int start, last, stack[24] = { 0, };
@@ -150,15 +149,29 @@ void Insert_outside()
 		}
 	}
 	screen(75, 23);
-	printf("*주의* %d ~ %d 시에 외근이 이미 존재합니다.");
-
+	for (int i = start; i <= last; i++)
+	{
+		if (retData->Schedule[day].outside_duty[i] == 1)
+		{
+			printf("*주의* %d ~ %d 시에 외근이 이미 존재합니다. ( 진행 하실 경우 기존 외근은 삭제됩니다. )\n", stack[0], stack[top]);
+			if (!Check())
+				return;
+			break;
+		}
+	}
+	for (int i = stack[0]; i < 24; i++)
+	{
+		if (retData->Schedule[day].outside_duty[i] != 1)
+			break;
+		retData->Schedule[day].outside_duty[i] == 0;
+	}
 	for (int i = start; i <= last; i++)
 	{
 		retData->Schedule[day].outside_duty[i]=1; 
 		//외근 입력
 	}
 	screen(75, 23);
-	printf("외근 일정이 입력되었습니다");
+	printf("외근 일정이 입력되었습니다.\n");
 
 }
 
