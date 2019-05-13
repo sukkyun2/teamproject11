@@ -26,19 +26,6 @@ void Schedule() {		// 직원 관리 실행
 	}
 }
 
-int Check()
-{
-	char check[5];
-	screen(78, 28);
-	printf("실행하시겠습니까 ? [Yes Or No] : \n ");
-	screen(111, 28);
-	scanf("%s", check);
-	if (strcmp(check, "Yes") == 0)
-		return 1;
-	else
-		return 0;
-}
-
 void Print_Schedule_Menu() {	// 일정 관리 메뉴 출력
 
 	system("cls");
@@ -126,8 +113,10 @@ void Delete_Schedule()
 
 void Insert_outside()
 {
+	people tempData = NULL;
 	char search_name[10]; //검색할 직원의 이름
-	int front, rear, day;
+	int top = -1, day;
+	int start, last, stack[24] = { 0, };
 	system("cls");
 	screen(75, 23);
 	printf("외근을  입력할 직원의 이름을 입력해주세요 :");
@@ -151,19 +140,20 @@ void Insert_outside()
 	screen(75, 25);
 	printf("외근 시간을 입력해주세요 ");
 	screen(111, 25);
-	scanf("%d %d", &front, &rear);
+	scanf("%d %d", &start, &last);
 	system("cls");
-	for (int i = front; i <= rear; i++)
+	for (int i = start; i <= last; i++)
 	{
 		if (retData->Schedule[day].outside_duty[i] = 1)
-			///화면을 띄우고 참고해서 스케줄을 작성 --O
-			///겹치는 스케줄을 발견했을 때 확인후 덮어씌우기
-			//이미 스케줄이 존재할 떄
 		{
-			screen(75, 23);
-			printf("이미 일정이 존재합니다");
-			return 0;
+			stack[++top] = i;
 		}
+	}
+	screen(75, 23);
+	printf("*주의* %d ~ %d 시에 외근이 이미 존재합니다.");
+
+	for (int i = start; i <= last; i++)
+	{
 		retData->Schedule[day].outside_duty[i]=1; 
 		//외근 입력
 	}
