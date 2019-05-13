@@ -40,7 +40,7 @@ int Check()
 {
 	char check[5];
 	screen(78, 28);
-	printf("실행하시겠습니까 ? [Yes Or No] : \n ");
+	printf("진행하시겠습니까 ? [Yes Or No] : \n ");
 	screen(111, 28);
 	scanf("%s", check);
 	if (strcmp(check, "Yes") == 0)
