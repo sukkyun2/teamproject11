@@ -1,12 +1,13 @@
-#pragma once
-
 #include "login.h"
-#include "menu.h"
-#include "staff.h"
+
+#include"DefinePage.h"
+
+#include"menu.h"
+
+#include"staff.h"
 
 int main()
 {
 	Login();
-	Select_Menu();
-
+	PrintHomepage();
 }
