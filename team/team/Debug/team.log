@@ -3,14 +3,14 @@ c:\users\user\documents\카카오톡 받은 파일\달력 합본\staff.h(31): wa
 c:\users\user\documents\카카오톡 받은 파일\달력 합본\staff.h(41): warning C4091: 'typedef ': 변수를 선언하지 않으면 'people' 왼쪽은 무시됩니다.
 c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(33): warning C4013: 'Print_scheduleSMenu'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
 c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(46): warning C4013: 'PrintHomepage'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(250): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(288): warning C4098: 'Insert_day': 'void' 함수에서 값을 반환하고 있습니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(303): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'char *'입니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(265): warning C4101: 'search_name' :참조되지 않은 지역 변수입니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(329): warning C4101: 'rear' :참조되지 않은 지역 변수입니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(329): warning C4101: 'front' :참조되지 않은 지역 변수입니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(362): warning C4101: 'rear' :참조되지 않은 지역 변수입니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(362): warning C4101: 'front' :참조되지 않은 지역 변수입니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(396): warning C4101: 'start' :참조되지 않은 지역 변수입니다.
-c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(396): warning C4101: 'last' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(364): warning C4098: 'Insert_day': 'void' 함수에서 값을 반환하고 있습니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(403): warning C4101: 'rear' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(403): warning C4101: 'front' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(437): warning C4101: 'rear' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(437): warning C4101: 'front' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(472): warning C4101: 'start' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(472): warning C4101: 'last' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(591): warning C4101: 'start' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(591): warning C4101: 'last' :참조되지 않은 지역 변수입니다.
+c:\users\user\documents\카카오톡 받은 파일\달력 합본\schedule.c(590): warning C4101: 'day' :참조되지 않은 지역 변수입니다.
   team.vcxproj -> C:\Users\USER\Documents\GitHub\teamproject11\team\Debug\team.exe
