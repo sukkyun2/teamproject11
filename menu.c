@@ -1,48 +1,59 @@
 #pragma once
 
 #include "menu.h"
-#include "staff.h"
+#include <Windows.h>
 
 void Select_Menu()		// 메뉴 선택하는 함수
 {
 	int menu;
+	COORD tmp;
 
 	while (1) {
-		Print_Menu();
-		screen(163, 7);
-		scanf("%d", &menu);
-		switch (menu) {
+		menu = Ask_Menunum(&tmp);
+
+		switch (menu)
+		{
 		case 1:
 			Staff();
 			break;
 		case 2:
+			Schedule();
 			break;
 		case 3:
+			Work();
 			break;
 		case 4:
-			break;
-		case 5:
-			exit(0);
+			system("cls");
+			if (MessageBox(NULL, TEXT("종료하시겠습니까?"), TEXT("Check Box"), MB_YESNO | MB_ICONQUESTION) == IDYES)
+				exit(0);
+			else
+				PrintHomepage();
 			break;
 		}
 	}
 }
 
-void Print_Menu() {	// 메뉴 프린트
+int Ask_Menunum(COORD *tmp)
+{
+	int menu;
 
-	system("cls");
+	tmp->X = menupos_start.X + 3 + strlen("메뉴 번호를 입력해주세요 : ");
+	tmp->Y = menupos_start.Y + 2;
+	gotoxy(tmp->X, tmp->Y);
+	scanf_s("%d", &menu);
 
-	screen(135, 7);
-	printf("메뉴 번호를 입력해주세요 : ");
-	screen(135, 9);
-	printf("1. 직원관리");
-	screen(135, 11);
-	printf("2. 일정관리");
-	screen(135, 13);
-	printf("3. 근무관리");
-	screen(135, 15);
-	printf("4. 인물검색");
-	screen(135, 17);
-	printf("5. 프로그램 종료");
+	return menu;
 }
 
+int Check()
+{
+	char check[5];
+
+	getcenter();
+
+	if (MessageBox(NULL, TEXT("진행하시겠습니까 ?"), TEXT("Check Box"), MB_YESNO | MB_ICONQUESTION) == IDYES)
+		return 1;
+	else
+		return 0;
+
+}

@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="login.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="schedule.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SetScreen.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="setting.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="staff.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="work.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DefinePage.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCalendar.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawLogin.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawMainMenu.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawNavigator.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawSideMenu_schedule.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawUI.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GetDate.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMouseControl.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="login.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="schedule.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SetScreen.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="staff.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="work.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DefinePage.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawCalendar.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawLogin.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawMainMenu.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawNavigator.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawSideMenu_schedule.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawUI.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GetDate.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMouseControl.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="screen.bmp">
+      <Filter>소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

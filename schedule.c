@@ -6,6 +6,7 @@ void Print_scheduleinfo() {   // 메뉴 프린트
 	char* scheduleMenuList[scheduleMenuNum] = {
 	"휴가 추가 하기",
 	"휴가 삭제 하기",
+	"직원 일정 출력",
 	"메인메뉴로 돌아가기"
 	};
 	int i;
@@ -19,34 +20,6 @@ void Print_scheduleinfo() {   // 메뉴 프린트
 		printf("%d. %s", i + 1, scheduleMenuList[i]);
 	}
 }
-
-
-void Schedule() {      // 직원 관리 실행
-	int menu;
-	COORD tmp;
-
-	while (1)
-	{
-		system("cls");
-		Print_scheduleSMenu();
-
-		menu = Ask_Menunum(&tmp);
-
-		switch (menu)
-		{
-		case 1:
-			Insert_Schedule();
-			break;
-		case 2:
-			Delete_Schedule();
-			break;
-		case 3:
-			PrintHomepage();
-			break;
-		}
-	}
-}
-
 
 void Print_Insert_scheduleinfo() {   // 메뉴 프린트
 
@@ -71,40 +44,6 @@ void Print_Insert_scheduleinfo() {   // 메뉴 프린트
 	}
 }
 
-void Insert_Schedule()
-{
-	COORD tmp;
-
-	int menu;
-	while (1)
-	{
-		system("cls");
-		Print_Insert_scheduleSinfo();
-
-		menu = Ask_Menunum(&tmp);
-		switch (menu)
-		{
-		case 1:
-			Insert_outside();
-			break;
-		case 2:
-			Insert_day();
-			break;
-		case 3:
-			Insert_moning_half();
-			break;
-		case 4:
-			Insert_afternoon_half();
-			break;
-		case 5:
-			PrintHomepage();
-			break;
-		}
-	}
-
-}
-
-
 void Print_Delete_scheduleinfo() {   // 메뉴 프린트
 
 	COORD tmp;
@@ -126,6 +65,68 @@ void Print_Delete_scheduleinfo() {   // 메뉴 프린트
 	}
 }
 
+void Schedule() {      // 직원 관리 실행
+	int menu;
+	COORD tmp;
+
+	while (1)
+	{
+		system("cls");
+		Print_scheduleSMenu();
+
+		menu = Ask_Menunum(&tmp);
+
+		switch (menu)
+		{
+		case 1:
+			Insert_Schedule();
+			break;
+		case 2:
+			Delete_Schedule();
+			break;
+		case 3:
+			Print_Schedule();
+			break;
+		case 4:
+			PrintHomepage();
+			break;
+		}
+	}
+}
+
+void Insert_Schedule()
+{
+	COORD tmp;
+
+	int menu;
+	while (1)
+	{
+		system("cls");
+		Print_Insert_scheduleSMenu();
+
+		menu = Ask_Menunum(&tmp);
+		switch (menu)
+		{
+		case 1:
+			Insert_outside();
+			break;
+		case 2:
+			Insert_day();
+			break;
+		case 3:
+			Insert_moning_half();
+			break;
+		case 4:
+			Insert_afternoon_half();
+			break;
+		case 5:
+			Schedule();
+			break;
+		}
+	}
+
+}
+
 void Delete_Schedule()
 {
 	int menu;
@@ -134,7 +135,7 @@ void Delete_Schedule()
 	while (1)
 	{
 		system("cls");
-		Print_staffMenu();
+		Print_Delete_scheduleSMenu();
 
 		menu = Ask_Menunum(&tmp);
 
@@ -147,10 +148,19 @@ void Delete_Schedule()
 			Delete_vacation();
 			break;
 		case 3:
-			PrintHomepage();
+			Schedule();
 			break;
 		}
 	}
+}
+
+void Print_menutitle(char s[])
+{
+	system("cls");
+	DrawCenterBox(50, 20);
+	getcenter();
+	gotoxy(pos_start.X - strlen("* 직원 관리 메뉴 *") / 2, pos_start.Y - 12);
+	printf("* %s *", s);
 }
 
 void Insert_outside()
@@ -160,10 +170,7 @@ void Insert_outside()
 	int stack[30][24] = { 0, };
 	int stackTop[30] = { 0, };
 
-
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 외근 관리");
 
 	gotoxy(pos_start.X - strlen("외근할 직원의 이름 :   ") / 2, pos_start.Y - 2);
 	printf("외근할 직원의 이름 :");
@@ -173,27 +180,24 @@ void Insert_outside()
 
 	if (!retData)
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 	}
 	else {
-		system("cls");
-		DrawCenterBox(50, 20);
-		getcenter();
+		Print_menutitle("직원 외근 관리");
 
-		gotoxy(pos_start.X - strlen("외근할 날짜를 입력해주세요 : ") / 2, pos_start.Y - 2);
+		gotoxy(pos_start.X - strlen("외근할 날짜를 입력해주세요 : ") / 2, pos_start.Y - 4);
 		printf("외근할 날짜를 입력해주세요 :  ");
-		gotoxy(pos_start.X + strlen("외근할 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
+		gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y-2);
+		printf("* ex ) 이번 달의 15일 -> 15 *");
+		gotoxy(pos_start.X + strlen("외근할 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 4);
 		scanf("%d", &day);
+
 		gotoxy(pos_start.X - strlen("외근 시간을 입력해주세요 :  ") / 2, pos_start.Y);
 		printf("외근 시간을 입력해주세요 :  ");
 		gotoxy(pos_start.X + strlen("외근 시간을 입력해주세요 : ") / 2, pos_start.Y);
 		scanf("%d", &start);
 		gotoxy(pos_start.X + strlen("외근 시간을 입력해주세요 : ") / 2 + 2, pos_start.Y);
-		printf("~");
+		printf(" ~ ");
 		scanf("%d", &last);
 
 
@@ -219,13 +223,11 @@ void Insert_outside()
 			{
 				if (stack[i][j] >= start && stack[i][j] < last)
 				{
-					system("cls");
-					gotoxy(pos_start.X - strlen("ERR :: %d ~ %d 시는 외근이 이미 존재합니다.") / 2, pos_start.Y - 5);
-					printf("ERR :: %d ~ %d 시는 외근이 이미 존재합니다.", stack[j][0], stack[j][stackTop[j]]);            // 오류메세지 출력
-					gotoxy(pos_start.X - strlen("( 진행 하실 경우 기존 외근은 삭제됩니다. )") / 2, pos_start.Y - 3);
-					printf("( 진행 하실 경우 기존 외근은 삭제됩니다. )");
+					Print_menutitle("직원 외근 관리");
 					gotoxy(pos_start.X - strlen("ERR :: %d ~ %d 시는 외근이 이미 존재합니다.") / 2, pos_start.Y - 3);
-					system("PAUSE");
+					printf("ERR :: %d ~ %d 시는 외근이 이미 존재합니다.", stack[j][0], stack[j][stackTop[j]]);            // 오류메세지 출력
+					gotoxy(pos_start.X - strlen("( 진행 하실 경우 기존 외근은 삭제됩니다. )") / 2, pos_start.Y - 1);
+					printf("( 진행 하실 경우 기존 외근은 삭제됩니다. )");
 
 					if (!Check())
 						return;                                                   //진행 안하겠다고 할 시 메뉴로 복귀
@@ -252,17 +254,10 @@ void Insert_outside()
 		}
 		for (int i = start; i < last; i++)									//외근시간 입력
 		{
-			retData->Schedule[day].outside_duty[i] = 1;
-			//외근 입력
+			retData->Schedule[day].outside_duty[i] = 1;			//외근 입력
 		}
-
-		system("cls");
-		gotoxy(pos_start.X - strlen(":: 외근 일정이 입력되었습니다.") / 2, pos_start.Y - 5);
-		printf(":: 외근 일정이 입력되었습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen(":: 외근 일정이 입력되었습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("외근 일정이 입력되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 	}
-
 }
 
 void Insert_day()
@@ -270,9 +265,7 @@ void Insert_day()
 
 	int day;
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 휴가 관리");
 
 	gotoxy(pos_start.X - strlen("휴가일정 추가할 직원의 이름 :   ") / 2, pos_start.Y - 2);
 	printf("휴가일정 추가할 직원의 이름 : ");
@@ -280,33 +273,21 @@ void Insert_day()
 	scanf("%s", newname);  ///변수이름 통일
 	Retrieve();
 
-	if (!retData)
-	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
-	}
-
-	if (retData->count < 1)  //휴가 한도를 넘어섰다면
-	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 휴가 사용 가능횟수를 초과하였습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 휴가 사용 가능횟수를 초과하였습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 휴가 사용 가능횟수를 초과하였습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
-
+	if (!retData) {
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 		return 0;
-		// Schedule으로 돌아간다
+	}
+	if (retData->count < 1) {  //휴가 한도를 넘어섰다면
+		MessageBox(NULL, TEXT("휴가 사용 가능횟수를 초과하였습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
+		return 0;					// Schedule으로 돌아간다
 	}
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 휴가 관리");
 
 	gotoxy(pos_start.X - strlen("휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("휴가 날짜를 입력해주세요 : ");
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
 
@@ -317,8 +298,11 @@ void Insert_day()
 	{
 		if (retData->Schedule[day].outside_duty[i] = 1)
 		{
-			gotoxy(pos_start.X - strlen("%d일에 외근 일정이 존재합니다 ") / 2, pos_start.Y - 2);
-			printf("%d일에 외근 일정이 존재합니다 \n", day);
+			Print_menutitle("직원 휴가 관리");
+			gotoxy(pos_start.X - strlen("%d일에 외근 일정이 존재합니다.") / 2, pos_start.Y - 3);
+			printf("%d일에 외근 일정이 존재합니다.\n", day);
+			gotoxy(pos_start.X - strlen("( 진행 하실 경우 기존 외근은 삭제됩니다. )") / 2, pos_start.Y - 1);
+			printf("( 진행 하실 경우 기존 외근은 삭제됩니다. )");
 			Check();
 			for (int j = 0; j < 25; j++)
 			{
@@ -334,12 +318,9 @@ void Insert_day()
 	retData->Schedule[day].day[1] = 1;
 	//휴가 입력
 	retData->count = retData->count - 1;
-
 	system("cls");
-	gotoxy(pos_start.X - strlen(":: 휴가 일정이 입력되었습니다.") / 2, pos_start.Y - 5);
-	printf(":: 휴가 일정이 입력되었습니다.");            // 오류메세지 출력
-	gotoxy(pos_start.X - strlen(":: 휴가 일정이 입력되었습니다.") / 2, pos_start.Y - 3);
-	system("PAUSE");
+
+	MessageBox(NULL, TEXT("휴가 일정이 입력되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 
 }
 
@@ -347,31 +328,26 @@ void Insert_moning_half()
 {
 	int front, rear, day;
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 반차 관리");
 
-	gotoxy(pos_start.X - strlen("반차일정 추가할 직원의 이름 :   ") / 2, pos_start.Y - 2);
+	gotoxy(pos_start.X - strlen("반차일정 추가할 직원의 이름 :  ") / 2, pos_start.Y - 2);
 	printf("반차일정 추가할 직원의 이름 : ");
-	gotoxy(pos_start.X + strlen("반차일정 추가할 직원의 이름 :   ") / 2, pos_start.Y - 2);
+	gotoxy(pos_start.X + strlen("반차일정 추가할 직원의 이름 :  ") / 2, pos_start.Y - 2);
 	scanf("%s", newname);  ///변수이름 통일
 	Retrieve();
 
 	if (!retData)
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
+		return 0;
 	}
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 반차 관리");
 
 	gotoxy(pos_start.X - strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("반차 날짜를 입력해주세요 : ");
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
 
@@ -379,16 +355,15 @@ void Insert_moning_half()
 	retData->Schedule[day].day[1] = 0;
 	//반차 입력
 	retData->count = retData->count - 0.5;
-	system("PAUSE");
+
+	MessageBox(NULL, TEXT("반차 일정이 입력되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 }
 
 void Insert_afternoon_half()
 {
 	int front, rear, day;
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 반차 관리");
 
 	gotoxy(pos_start.X - strlen("반차일정 추가할 직원의 이름 :   ") / 2, pos_start.Y - 2);
 	printf("반차일정 추가할 직원의 이름 : ");
@@ -398,19 +373,16 @@ void Insert_afternoon_half()
 
 	if (!retData)
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
+		return 0;
 	}
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 반차 관리");
 
 	gotoxy(pos_start.X - strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("반차 날짜를 입력해주세요 : ");
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
 
@@ -418,8 +390,8 @@ void Insert_afternoon_half()
 	retData->Schedule[day].day[1] = 1;
 	//반차 입력
 	retData->count = retData->count - 0.5;
-	system("PAUSE");
-
+	
+	MessageBox(NULL, TEXT("반차 일정이 입력되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 }
 
 void Delete_outside()
@@ -430,9 +402,7 @@ void Delete_outside()
 	int stack[30][24] = { 0, };
 	int stackTop[30] = { 0, };
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 외근 관리");
 
 	gotoxy(pos_start.X - strlen("외근일정 삭제할 직원의 이름 :   ") / 2, pos_start.Y - 2);
 	printf("외근일정 삭제할 직원의 이름 : ");
@@ -442,18 +412,15 @@ void Delete_outside()
 
 	if (!retData)
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
+		return 0;
 	}
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 외근 관리");
 
 	gotoxy(pos_start.X - strlen("삭제할 외근 날짜를 입력해주세요 :  ") / 2, pos_start.Y - 2);
 	printf("삭제할 외근 날짜를 입력해주세요 :  ");
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y);
+	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("삭제할 외근 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
 
@@ -471,7 +438,7 @@ void Delete_outside()
 		}
 	}
 
-	system("cls");
+	Print_menutitle("직원 외근 관리");
 	for (int i = 0; i < top; i++)
 	{
 		gotoxy(pos_start.X - strlen("%d번 : %d시 ~ %d시") / 2, pos_start.Y - 2);
@@ -480,27 +447,21 @@ void Delete_outside()
 
 	gotoxy(pos_start.X - strlen("어떤 외근을 삭제 하시겠습니까?") / 2, pos_start.Y);
 	printf("어떤 외근을 삭제 하시겠습니까? : ");
-	gotoxy(pos_start.X + strlen("어떤 외근을 삭제 하시겠습니까?") / 2, pos_start.Y);
+	gotoxy(pos_start.X + strlen("어떤 외근을 삭제 하시겠습니까?") / 2+3, pos_start.Y);
 	scanf("%d", &tmp);
 	for (int i = 0; i <= stackTop[i]; i++)
 	{
 		retData->Schedule[day].outside_duty[stack[tmp][i]] = 0;
 	}
 
-	system("cls");
-	gotoxy(pos_start.X - strlen(":: 외근 일정이 삭제되었습니다.") / 2, pos_start.Y - 5);
-	printf(":: 외근 일정이 삭제되었습니다.");            // 오류메세지 출력
-	gotoxy(pos_start.X - strlen(":: 외근 일정이 삭제되었습니다.") / 2, pos_start.Y - 3);
-	system("PAUSE");
+	MessageBox(NULL, TEXT("외근 일정이 삭제되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 }
 
 void Delete_vacation()
 {
 	int day;
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 휴가 관리");
 
 	gotoxy(pos_start.X - strlen("휴가일정 삭제할 직원의 이름 :   ") / 2, pos_start.Y - 2);
 	printf("휴가일정 추가할 직원의 이름 : ");
@@ -508,23 +469,17 @@ void Delete_vacation()
 	scanf("%s", newname);  ///변수이름 통일
 	Retrieve();
 
-
 	if (!retData)
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 	}
 
-
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
+	Print_menutitle("직원 휴가 관리");
 
 	gotoxy(pos_start.X - strlen("삭제할 휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("삭제할 휴가 날짜를 입력해주세요 : ");
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("삭제할 휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
 
@@ -542,18 +497,14 @@ void Delete_vacation()
 		retData->Schedule[day].day[0] = 0;
 		retData->Schedule[day].day[1] = 0;
 		system("cls");
-		gotoxy(pos_start.X - strlen(":: 휴가 일정이 삭제되었습니다.") / 2, pos_start.Y - 5);
-		printf(":: 휴가 일정이 삭제되었습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen(":: 휴가 일정이 삭제되었습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+
+		MessageBox(NULL, TEXT("휴가 일정이 삭제되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
+		return 0;
 	}
 	else
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 휴가 일정이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 휴가 일정이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 휴가 일정이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("휴가 일정이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
+		return 0;
 	}
 
 }
@@ -566,27 +517,23 @@ void Print_Schedule()
 	int stackTop[30] = { 0, };
 	int stackDay[32] = { 0, };
 
+	Print_menutitle("직원 일정 검색");
 
-	system("cls");
-	DrawCenterBox(50, 20);
-	getcenter();
-
-	gotoxy(pos_start.X - strlen("검색할 직원의 이름을 입력해주세요 : "), pos_start.Y - 1);
+	gotoxy(pos_start.X - strlen("검색할 직원의 이름을 입력해주세요 : ")/2, pos_start.Y - 1);
 	printf("검색할 직원의 이름을 입력해주세요 :");
-	gotoxy(pos_start.X + strlen("검색할 직원의 이름을 입력해주세요 : "), pos_start.Y - 1);
-	scanf("%s", search_name);  ///변수이름 통일
+	gotoxy(pos_start.X + strlen("검색할 직원의 이름을 입력해주세요 : ")/2, pos_start.Y - 1);
+	scanf("%s", newname);  ///변수이름 통일
 	Retrieve();
 
 	if (!retData)
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
+		return 0;
 	}
 
+	Print_menutitle("직원 일정 검색");
 
+	gotoxy(pos_start.X - strlen("휴가 : ") / 2, pos_start.Y - 1);
 	printf("휴가 : ");
 	for (int i = 1; i < 32; i++)
 	{
@@ -598,68 +545,65 @@ void Print_Schedule()
 		{
 			if (retData->Schedule[i + 1].outside_duty[0] == 1 && retData->Schedule[i + 1].outside_duty[1] == 1)
 			{
-				if (retData->Schedule[i + 2].outside_duty[0] == 1 && retData->Schedule[i + 2].outside_duty[1] == 1)
-					//3일연속으로 휴가를 사용한 경우
+				if (retData->Schedule[i + 2].outside_duty[0] == 1 && retData->Schedule[i + 2].outside_duty[1] == 1)					//3일연속으로 휴가를 사용한 경우
 				{
-					gotoxy(111, 23);
+					gotoxy(pos_start.X + strlen("휴가 :   ") / 2, pos_start.Y - 1);
 					printf("%d ~ %d ", i + 1, i + 3);
 					tmp += 3;
 					break;
 				}
 				else
 				{
-					gotoxy(111 + j, 23);
+					gotoxy(pos_start.X + strlen("휴가 :   ")/ 2+j, pos_start.Y - 1);
 					printf("%d ~ %d", i, i + 1);
 					tmp = tmp + 2;
 					j += 2;
 					if (tmp != 3)
 					{
-						gotoxy(111 + j, 23);
+						gotoxy(pos_start.X + strlen("휴가 : ")/ 2+j, pos_start.Y - 1);
 						printf(" , ");
 						j += 2;
 					}
 				}
 			}
-			if (retData->Schedule[i + 1].outside_duty[0] != 1 && retData->Schedule[i + 1].outside_duty[1] != 1)
-				//하루만 휴가를 사용한 경우
+			if (retData->Schedule[i + 1].outside_duty[0] != 1 && retData->Schedule[i + 1].outside_duty[1] != 1)				//하루만 휴가를 사용한 경우
 			{
-				gotoxy(111 + j, 23);
+				gotoxy(pos_start.X + strlen("휴가 : ")/ 2+j, pos_start.Y - 1);
 				printf("%d", i);
 				tmp = tmp + 1;
 				j += 2;
 				if (tmp != 3)
 				{
-					gotoxy(111 + j, 23);
+					gotoxy(pos_start.X + strlen("휴가 : ") / 2+j, pos_start.Y - 1);
 					printf(" , ");
 					j += 2;
 				}
 			}
 		}
 
-	}
-	//휴가 출력 완료
+	}		//휴가 출력 완료
 
+	Print_menutitle("직원 일정 검색");
+	gotoxy(pos_start.X - strlen("반차 : ") / 2, pos_start.Y - 1);
 	printf("반차 : ");
 	for (int i = 0; i < 32; i++)
 	{
 		int j = 0; //좌표 설정 변수
 		if (retData->Schedule[i].day[0] != 1 && retData->Schedule[i].day[1] == 1)
 		{
-			gotoxy(111 + j, 25);
+			gotoxy(pos_start.X + strlen("반차 :   ")/ 2+j, pos_start.Y - 1);
 			printf("%d ", i);
 			j += 2;
 		}
 
 		if (retData->Schedule[i].day[0] == 1 && retData->Schedule[i].day[1] != 1)
 		{
-			gotoxy(111 + j, 25);
+			gotoxy(pos_start.X + strlen("반차 :   ")/ 2+j, pos_start.Y - 1);
 			printf("%d ", i);
 			j += 2;
 		}
-	}
-	//반가 출력 완료
-
-
+	} 	//반가 출력 완료
+	
 	tmp = -1;
 
 	for (int day = 1; day < 32; day++)
@@ -674,18 +618,18 @@ void Print_Schedule()
 		}
 	}
 
-	gotoxy(75, 27);
+	Print_menutitle("직원 일정 검색");
+	gotoxy(pos_start.X - strlen("외근 :  15 ~ 17시 ")/ 2-5, pos_start.Y - 1);
 	printf("외근 : ");
 
-	for (int day = 1; day < 32; day++)
+	for (int day = 0; day < 32; day++)
 	{
 
 		if (stackDay[day] != 0)			//외근 있는 날에 실행
 		{
-			int x = 0;//좌표 설정 변수
 			int y = 0;//좌표 설정 변수
 
-			gotoxy(111 + x, 27 + y);
+			gotoxy(pos_start.X - strlen("외근 :  15 ~ 17시 ")/ 2+2, pos_start.Y - 1+y);
 			printf("%d일 -> ", stackDay[day]);
 
 			top = 0;
@@ -708,17 +652,20 @@ void Print_Schedule()
 
 			for (int j = 0; j <= top; j++)
 			{
-				x += 5;
-				gotoxy(111 + x, 27);
+				gotoxy(pos_start.X - strlen("외근 :   ") / 2 + 7, pos_start.Y - 1 + y);
 				printf("%d ~ %d 시 ", stack[j][0], stack[j][stackTop[j]] + 1);
 				if (j != top)
 				{
-					x += 2;
+					gotoxy(pos_start.X + strlen("외근 :   ") / 2 + 7, pos_start.Y - 1 + y);
 					printf(" , ");
+					y += 2;
 				}
 			}
 			y += 2;
 		}
 	}
+
+	gotoxy(pos_start.X - 18, pos_start.Y + 11);
+	system("PAUSE");
 
 }
