@@ -88,6 +88,7 @@ void GetSelectedday(ldate date)
 	GetMonthDay(date);
 	if (date.tm_day > monthday)
 		PrintHomepage();
+	selected_day = date;
 }
 
 void GetMonthDay(ldate date)
