@@ -77,7 +77,7 @@ void Schedule() {      // 직원 관리 실행
 
 	while (1)
 	{
-		system("cls"); 
+		system("cls");
 		Print_scheduleSMenu();
 
 		menu = Ask_Menunum();
@@ -198,7 +198,7 @@ void Insert_outside()
 
 		gotoxy(pos_start.X - strlen("외근할 날짜를 입력해주세요 : ") / 2, pos_start.Y - 4);
 		printf("외근할 날짜를 입력해주세요 :  ");
-		gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y-2);
+		gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y - 2);
 		printf("* ex ) 이번 달의 15일 -> 15 *");
 		gotoxy(pos_start.X + strlen("외근할 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 4);
 		scanf("%d", &day);
@@ -317,7 +317,7 @@ void Insert_day()
 
 	gotoxy(pos_start.X - strlen("휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("휴가 날짜를 입력해주세요 : ");
-	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y);
 	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
@@ -360,7 +360,7 @@ void Insert_day()
 	retData->Schedule[day].day[1] = 1;
 	//휴가 입력
 	retData->count = retData->count - 1;
-	system("cls"); 
+	system("cls");
 
 	MessageBox(NULL, TEXT("휴가 일정이 입력되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 
@@ -402,7 +402,7 @@ void Insert_moning_half()
 
 	gotoxy(pos_start.X - strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("반차 날짜를 입력해주세요 : ");
-	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y);
 	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
@@ -451,7 +451,7 @@ void Insert_afternoon_half()
 
 	gotoxy(pos_start.X - strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("반차 날짜를 입력해주세요 : ");
-	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y);
 	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("반차 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
@@ -460,7 +460,7 @@ void Insert_afternoon_half()
 	retData->Schedule[day].day[1] = 1;
 	//반차 입력
 	retData->count = retData->count - 0.5;
-	
+
 	MessageBox(NULL, TEXT("반차 일정이 입력되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 }
 
@@ -536,10 +536,10 @@ void Delete_outside()
 
 	gotoxy(pos_start.X - strlen("어떤 외근을 삭제 하시겠습니까?") / 2, pos_start.Y);
 	printf("어떤 외근을 삭제 하시겠습니까? : ");
-	gotoxy(pos_start.X + strlen("어떤 외근을 삭제 하시겠습니까?") / 2+3, pos_start.Y);
+	gotoxy(pos_start.X + strlen("어떤 외근을 삭제 하시겠습니까?") / 2 + 3, pos_start.Y);
 	scanf("%d", &tmp);
 
-	for (int i = 0; i <= stackTop[tmp-1]; i++)
+	for (int i = 0; i <= stackTop[tmp - 1]; i++)
 	{
 		retData->Schedule[day].outside_duty[stack[tmp - 1][i]] = 0;
 	}
@@ -581,7 +581,7 @@ void Delete_vacation()
 
 	gotoxy(pos_start.X - strlen("삭제할 휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	printf("삭제할 휴가 날짜를 입력해주세요 : ");
-	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y );
+	gotoxy(pos_start.X - strlen("* ex ) 이번 달의 15일 -> 15 *") / 2, pos_start.Y);
 	printf("* ex ) 이번 달의 15일 -> 15 *");
 	gotoxy(pos_start.X + strlen("삭제할 휴가 날짜를 입력해주세요 :   ") / 2, pos_start.Y - 2);
 	scanf("%d", &day);
@@ -599,7 +599,7 @@ void Delete_vacation()
 
 		retData->Schedule[day].day[0] = 0;
 		retData->Schedule[day].day[1] = 0;
-		system("cls"); 
+		system("cls");
 
 		MessageBox(NULL, TEXT("휴가 일정이 삭제되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
 		return 0;
@@ -629,9 +629,9 @@ void Print_Schedule()
 	hImage = (HBITMAP)LoadImage(NULL, TEXT("일정.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	print_menuimage(hImage);
 
-	gotoxy(pos_start.X - strlen("검색할 직원의 이름을 입력해주세요 : ")/2, pos_start.Y - 1);
+	gotoxy(pos_start.X - strlen("검색할 직원의 이름을 입력해주세요 : ") / 2, pos_start.Y - 1);
 	printf("검색할 직원의 이름을 입력해주세요 :");
-	gotoxy(pos_start.X + strlen("검색할 직원의 이름을 입력해주세요 : ")/2, pos_start.Y - 1);
+	gotoxy(pos_start.X + strlen("검색할 직원의 이름을 입력해주세요 : ") / 2, pos_start.Y - 1);
 	scanf("%s", newname);  ///변수이름 통일
 	Retrieve();
 
@@ -647,7 +647,7 @@ void Print_Schedule()
 
 	hImage = (HBITMAP)LoadImage(NULL, TEXT("일정.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	print_menuimage(hImage);
-	
+
 	gotoxy(pos_start.X - strlen("휴가 : ") / 2, pos_start.Y - 1);
 	printf("휴가 : ");
 	for (int i = 1; i < 32; i++)
@@ -669,14 +669,14 @@ void Print_Schedule()
 				}
 				else
 				{
-					gotoxy(pos_start.X + strlen("휴가 :   ")/ 2+j, pos_start.Y - 1);
+					gotoxy(pos_start.X + strlen("휴가 :   ") / 2 + j, pos_start.Y - 1);
 					printf("%d ~ %d", i, i + 1);
 					tmp = tmp - 2;
 					j += 2;
 					i++;
 					if (tmp != retData->count)
 					{
-						gotoxy(pos_start.X + strlen("휴가 : ")/ 2+j, pos_start.Y - 1);
+						gotoxy(pos_start.X + strlen("휴가 : ") / 2 + j, pos_start.Y - 1);
 						printf(" , ");
 						j += 2;
 					}
@@ -684,13 +684,13 @@ void Print_Schedule()
 			}
 			else if (retData->Schedule[i + 1].day[0] != 1 && retData->Schedule[i + 1].day[1] != 1)				//하루만 휴가를 사용한 경우
 			{
-				gotoxy(pos_start.X + strlen("휴가 : ")/ 2+j, pos_start.Y - 1);
+				gotoxy(pos_start.X + strlen("휴가 : ") / 2 + j, pos_start.Y - 1);
 				printf(" %d", i);
 				tmp = tmp - 1;
 				j += 2;
 				if (tmp != retData->count)
 				{
-					gotoxy(pos_start.X + strlen("휴가 : ") / 2+j, pos_start.Y - 1);
+					gotoxy(pos_start.X + strlen("휴가 : ") / 2 + j, pos_start.Y - 1);
 					printf(" , ");
 					j += 2;
 				}
@@ -698,7 +698,7 @@ void Print_Schedule()
 		}
 
 	}		//휴가 출력 완료
-	
+
 	gotoxy(pos_start.X - 18, pos_start.Y + 7);
 	system("PAUSE");
 	system("cls");
@@ -715,14 +715,14 @@ void Print_Schedule()
 		int j = 0; //좌표 설정 변수
 		if (retData->Schedule[i].day[0] != 1 && retData->Schedule[i].day[1] == 1)
 		{
-			gotoxy(pos_start.X + strlen("반차 :   ")/ 2+j, pos_start.Y - 1);
+			gotoxy(pos_start.X + strlen("반차 :   ") / 2 + j, pos_start.Y - 1);
 			printf("%d ", i);
 			j += 2;
 		}
 
 		else if (retData->Schedule[i].day[0] == 1 && retData->Schedule[i].day[1] != 1)
 		{
-			gotoxy(pos_start.X + strlen("반차 :   ")/ 2+j, pos_start.Y - 1);
+			gotoxy(pos_start.X + strlen("반차 :   ") / 2 + j, pos_start.Y - 1);
 			printf("%d ", i);
 			j += 2;
 		}
@@ -730,7 +730,7 @@ void Print_Schedule()
 
 	gotoxy(pos_start.X - 18, pos_start.Y + 7);
 	system("PAUSE");
-	
+
 	tmp = -1;
 
 	for (int i = 0; i < 32; i++)
@@ -740,11 +740,11 @@ void Print_Schedule()
 
 	for (int day = 1; day < 32; day++)
 	{
- 		for (int i = 0; i < 24; i++)
+		for (int i = 0; i < 24; i++)
 		{
 			if (retData->Schedule[day].outside_duty[i] == 1)
 			{
-				printf("%d %d\n",i, day);
+				printf("%d %d\n", i, day);
 				stackDay[++tmp] = day;
 				break;
 			}
@@ -758,7 +758,7 @@ void Print_Schedule()
 	hImage = (HBITMAP)LoadImage(NULL, TEXT("일정.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	print_menuimage(hImage);
 
-	gotoxy(pos_start.X - strlen("외근 :  ")/ 2-5, pos_start.Y - 1);
+	gotoxy(pos_start.X - strlen("외근 :  ") / 2 - 5, pos_start.Y - 1);
 	printf("외근 : ");
 
 
@@ -774,12 +774,12 @@ void Print_Schedule()
 			hImage = (HBITMAP)LoadImage(NULL, TEXT("일정.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 			print_menuimage(hImage);
 
-			gotoxy(pos_start.X - strlen("외근 :  ")/ 2+2, pos_start.Y - 1+y);
+			gotoxy(pos_start.X - strlen("외근 :  ") / 2 + 2, pos_start.Y - 1 + y);
 			printf("%d일 -> ", stackDay[day]);
 
 			top = 0;
 			top1 = -1;
-			
+
 			for (int j = 0; j < 25; j++)
 			{
 				if (retData->Schedule[stackDay[day]].outside_duty[j] == 1)
@@ -798,7 +798,7 @@ void Print_Schedule()
 			{
 				gotoxy(pos_start.X - strlen("외근 :      ") / 2 + 7, pos_start.Y - 1 + y);
 				printf("%d ~ %d 시 ", stack[j][0], stack[j][stackTop[j]] + 1);
-				if (j != top-1)
+				if (j != top - 1)
 				{
 					gotoxy(pos_start.X + strlen("외근 :   ") / 2 + 7, pos_start.Y - 1 + y);
 					printf(" , ");
