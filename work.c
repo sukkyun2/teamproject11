@@ -5,28 +5,28 @@
 #include "work.h"
 #include "staff.h"
 
-void Print_Work_Menu() 
-{	// 일정 관리 메뉴 출력
+
+
+void Print_Work_Menu() {	// 일정 관리 메뉴 출력
 
 	system("cls");
 
-	screen(135, 7);
+	gotoxy(135, 7);
 	printf("메뉴 번호를 입력해주세요 : ");
-	screen(135, 9);
+	gotoxy(135, 9);
 	printf("1. 근무일정 자동생성하기");
-	screen(135, 11);
+	gotoxy(135, 11);
 	printf("2. 근무 일정 검색하기");
-	screen(135, 13);
+	gotoxy(135, 13);
 	printf("3. 메인메뉴로 돌아가기");
 }
 
-void Work() 
-{		//근무관리 
+void Work() {		//근무관리 
 	int menu;
 	
 	while (1) {
 		Print_Work_Menu();
-		screen(163, 7);
+		gotoxy(163, 7);
 		scanf("%d", &menu);
 		switch (menu) {
 		case 1:
@@ -36,7 +36,7 @@ void Work()
 			Search_Work();  
 			break;
 		case 3:
-			Select_Menu(); 
+			PrintHomepage();
 			break;
 		}
 	}
@@ -44,118 +44,237 @@ void Work()
 
 void Make_Work()
 {
+	int day; //해당 월의 일수
+
+	day = calculate_day();
+
+	for (i = 0; i < day; i++)
+		//한달 단위로 생성
+	{
+		Sub_Make_Work(0);
+		Sub_Make_Work(1);
+		
+		
+	}
+	gotoxy(75, 23);
+	printf("*** 근무 자동 생성이 완료되었습니다 ***");
+	
+}
+
+void Sub_Make_Work(int part_time)
+{
+	staff a[40]; //일정이 없는 사람들을 모아두는 연결리스트
+	staff tmp = NULL;
+	int smallcountPeopleindex;
+	int small_count;  //가장 적은 WCount를 저장하는 변수
+	int a_count = 0;   //근무가능 사람들의 수
+
+	tmp = head;
+	for (int k = 0; k < 40; k++)
+	{
+		a[k] = NULL;
+	}
+
+	for (; tmp; tmp = tmp->next)
+		//근무가능인원 추출
+	{
+
+		if (tmp->Schedule[i].day[0] == 0 && tmp->Schedule[i].day[1] == 0)
+		{
+			a[a_count++] = tmp;
+		}
+	}
+
+	for (int h = 0; h < 2; h++)   //첫번째 파트
+								  //한 파트당 2명씩 할당한다
+	{
+		small_count = a[0]->WCount;
+
+
+
+		for (int j = 0; j < a_count; j++)
+			//가장 적은 일 수 찾기
+		{
+			if (small_count >= a[j]->WCount)
+			{
+				small_count = a[j]->WCount;
+
+			}
+		}
+
+		for (int x = 0; x<a_count; x++)
+		{
+			if (small_count == a[x]->WCount)
+			{
+				smallcountPeopleindex = x;
+				break;
+			}
+		}
+
+		a[smallcountPeopleindex]->Schedule[i].work_schedule[part_time] = 1;
+
+		if (division_day(i) == 0)	//주말이면 +2
+		{
+			a[smallcountPeopleindex]->WCount += 3;
+		}
+		else if (division_day(i) == 6)
+		{
+			a[smallcountPeopleindex]->WCount += 3;
+		}
+		else                      //평일이면 +1
+		{
+			a[smallcountPeopleindex]->WCount += 1;
+		}
+	}
+	
+}
+
+int calculate_day()
+//해당 월에 일 수를 계산하여주는 프로그램
+{
 	struct tm *t;
 	time_t timer;
-	int year, mon, Fday, sum = 0, i, a;
+	int year, mon, Fday,day;
 
-	struct people* tmp = NULL;
-	struct pepple* tmp_a = NULL;
-	struct people* a = NULL; //휴가자가 아닌 사람들을 모아두는 연결리스트
-	
-	int a_count = 0;			
+	timer = time(NULL);
+	t = localtime(&timer);
+	mon = t->tm_mon + 1;
+	year = t->tm_year + 1900;
+	Fday = (year * 365 + year / 4 - year / 100 + year / 400 + 1) % 7; // 1월1일 요일
+	switch (mon)
+	{
+	case 1:case 3:case 5:case 7:case 8:case 10:case 12: day = 31; break;
+	case 4:case 6:case 9:case 11: day = 30; break;
+	case 2: day = 28; break;
+	}				//당 월의 일수 = mon	//	day
 
-	int small_count = -1;
+	return day;
+}
+
+int division_day(int i)
+//주말과 평일을 구분해주는 함수
+{
+	struct tm *t;
+	time_t timer;
+	int year, mon, Fday, sum = 0, d;  //i는 현재 날짜
 
 	timer = time(NULL);
 	t = localtime(&timer);
 	year = t->tm_year + 1900;
 	mon = t->tm_mon + 1;
-	Fday = (year * 365 + year / 4 - year / 100 + year / 400 + 1) % 7; //1월1일 요일
-	switch (mon)
+	Fday = (year * 365 + year / 4 - year / 100 + year / 400 + 1) % 7; // 1월1일 요일
+	for (int j = 1; j < mon; j++)
 	{
-	case 1:case 3:case 5:case 7:case 8:case 10:case 12: a = 31; break;
-	case 4:case 6:case 9:case 11: a = 30; break;
-	case 2: a = 28; break;
+		switch (j)
+		{
+		case 1:case 3:case 5:case 7:case 8:case 10:case 12: sum += 31; break;
+		case 4:case 6:case 9:case 11: sum += 30; break;
+		case 2: sum += 28; break;
+		}
+	}		//전 달까지 일수 더함
+	sum = sum + Fday + i;	//전달까지의 일 수 + 전년도까지의 일 수 + 현재 일
+	sum %= 7;				//i일의 요일
+
+	return sum;
+}
+
+void Search_Work()
+{
+	int day;
+	int x=0,y=0; //좌표 설정 변수
+	int count=0; //print count
+
+	system("cls");
+	DrawUI(50, 20);
+	getcenter();
+
+	gotoxy(pos_start.X - strlen("* 직원 검색 함수 *") / 2, pos_start.Y - 12);
+	printf("* 직원 검색 함수 *");
+	gotoxy(pos_start.X - 15, pos_start.Y - 1);
+	printf("검색할 직원의 이름 : ");
+	gotoxy(pos_start.X + 6, pos_start.Y - 1);
+	scanf("%s", newname);
+	Retrieve();
+
+	if (!retData)
+	{
+		system("cls");
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
+		printf("ERR :: 직원이 존재하지 않습니다.");      
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
+		system("PAUSE");
 	}
+	else {
+		system("cls");
+		DrawUI(50, 20);
+		getcenter();
 
-	for (i = 0; i < a; i++)
-		//한달 단위로 생성
-	{
-		for (tmp = head; tmp;)
+		gotoxy(pos_start.X - strlen("* 직원 검색 함수 *") / 2, pos_start.Y - 12);
+		printf("* 직원 검색 함수 *");
+		gotoxy(pos_start.X - strlen("* 천은정 님의 정보입니다. *") / 2, pos_start.Y - 6);
+
+		day = calculate_day();
+		printf("** %s 님의 근무 일정입니다 **",newname);
+		for (int i = 0; i < day; i++)
 		{
-			if (tmp->Schedule[i].day[0] == 0 && tmp->Schedule[i].day[1] == 0)
-				//휴가나 반차 일정이 없는 경우
+			
+			if (retData->Schedule[i].work_schedule[0] == 1 && retData->Schedule[i].work_schedule[1] == 1)
 			{
-				if (a == NULL)
-					//첫번째노드가 존재하지 않는다면
+				if (count%4==0)
 				{
-					a = tmp;
-					tmp_a = a;
-					tmp = tmp->next;
-					a_count++; //직원수를 알아내기 위한 변수
+					x += 10;
 				}
-				else
-				{
-					tmp_a->next = tmp;
-					tmp = tmp->next;
-					tmp_a = tmp_a->next;
-					a_count++;
-				}
-				//연결리스트 a에 추가한다.
+				gotoxy(50+x, 23+y);
+				printf("%d일 : 19시~22시, 22시-1시",i+1);
+				y += 2;
+				count++;
+				
 			}
-		}
-
-		for (int i = 1; i < mon; i++)
-		{
-			switch (i)
+			else if (retData->Schedule[i].work_schedule[0] == 1 && retData->Schedule[i].work_schedule[1] == 0)
 			{
-			case 1:case 3:case 5:case 7:case 8:case 10:case 12: sum += 31; break;
-			case 4:case 6:case 9:case 11: sum += 30; break;
-			case 2: sum += 28; break;
+				if (count%4==0)
+				{
+					x += 10;
+				}
+				gotoxy(50 + x, 23 + y);
+				printf("%d일 : 19시~22시",i+1);
+				y += 2;
+				count++;
 			}
+			else if (retData->Schedule[i].work_schedule[0] == 0 && retData->Schedule[i].work_schedule[1] == 1)
+			{
+				if (count%4==0)
+				{
+					x += 10;
+				}
+				gotoxy(50 + x, 23 + y);
+				printf("%d일 : 22시-1시",i+1);
+				y += 2;
+				count++;
+			}
+			
 		}
-		sum = sum + i + 1;
-		sum %= 7;
-
-		// 첫번째파트
-		while (tmp_a->WCount != small_count)
-		{
-			search_work(tmp_a, a,a_count);
-		}
-		tmp_a->Schedule[i].work_schedule[0] = 1;  
-		if (sum == 0 || sum==6)
-			tmp_a->WCount += 2.5;
-		else
-			tmp_a->WCount += 1;
 		
-		// 두번째파트
-		while (tmp_a->WCount != small_count)
-		{
-			search_work(tmp_a, a,a_count);
-		}
-		tmp_a->Schedule[i].work_schedule[1] = 1;
-		if (sum == 0 || sum == 6)
-			//주말일경우
-			tmp_a->WCount += 2.5;
-		else
-			//평일일경우
-			tmp_a->WCount += 1;
-    
+		system("PAUSE");
 	}
 }
 
-void search_work(struct people *tmp_a,struct people* a,int a_count)
-//랜덤인덱스를 뽑아 그 인덱스로 이동시키는 함수
+//10장 독립인경우 안냄
+/*
+staff search_work(staff a[], int small_a_count)
 {
 	int v;
-	v = random_index();
+	v = random_index(small_a_count);
 
-	tmp_a = a;
-	for (int i = 0; i < v - 1; i++)
-	{
-		tmp_a = tmp_a->next;
-	}
-}
+	return a[v];
+}	//랜덤한 숫자에 있는 사람을 리턴
 
-int random_index(int a_count)
-//랜덤인덱스를 뽑는 함수
+int random_index(int small_a_count)
 {
 	srand(time(NULL));
 	int v;
-	v = rand() % (a_count)+1;
+	v = rand() % (small_a_count);
 
 	return v;
-}
-
-
-///자동생성을 해놓은 상태에서 어떤 사람이 휴가를 추가했을때 --> 그 사람만 일단 제외하고 스케줄이 되는 다른사람을 찾아서 넣어줌
+}	//랜덤수 리턴
+*/

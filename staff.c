@@ -9,11 +9,12 @@ void Print_staffMenu()
 {
 	getform();
 	PrinttodayCalendar();
+
 	PrintSideMenu_background();
 	Print_staffinfo();
 }
 
-void Print_staffinfo() {	// 메뉴 프린트
+void Print_staffinfo() {   // 메뉴 프린트
 
 	COORD tmp;
 	char* staffMenuList[staffMenuNum] = {
@@ -35,7 +36,7 @@ void Print_staffinfo() {	// 메뉴 프린트
 	}
 }
 
-void Staff() {		// 직원 관리 실행
+void Staff() {      // 직원 관리 실행
 	int menu;
 	COORD tmp;
 
@@ -43,9 +44,9 @@ void Staff() {		// 직원 관리 실행
 	{
 		Print_staffMenu();
 
-		menu=Ask_Menunum(&tmp);
+		menu = Ask_Menunum(&tmp);
 
-		switch (menu) 
+		switch (menu)
 		{
 		case 1:
 			Insert_Staff();
@@ -79,51 +80,67 @@ void Retrieve()
 	return;
 }
 
-void Insert_Staff() {		// 직원 추가 함수
+void Insert_Staff() {      // 직원 추가 함수
 
 	system("cls");
-	DrawCenterBox(50, 20);
+	DrawUI(50, 20);
 	getcenter();
 
 	staff prev;
 
-	pos_start.X = 6.0*onecols - 15;
-	pos_start.Y = 3.75*onerows - 8;
-
-	gotoxy(pos_start.X, pos_start.Y);
+	gotoxy(pos_start.X - strlen("* 직원 추가 함수 *") / 2, pos_start.Y - 12);
 	printf("* 직원 추가 함수 *");
-	gotoxy(pos_start.X-2, pos_start.Y + 5);
+	gotoxy(pos_start.X - 10, pos_start.Y - 5);
 	printf("직원 이름 : ");
-	gotoxy(pos_start.X+10, pos_start.Y + 5);
+	gotoxy(pos_start.X + 2, pos_start.Y - 5);
 	scanf("%s", newname);
 	Retrieve();
 
-	if (retData!=NULL)
+	if (retData != NULL)
 	{
-		pos_start.X = 6.0*onecols;
-		pos_start.Y = 3.75*onerows;
 		system("cls");
-		gotoxy(pos_start.X-15, pos_start.Y);
-		printf("ERR :: 이미 직원이 존재합니다.");				// 오류메세지 출력
+		gotoxy(pos_start.X - strlen("ERR :: 이미 직원이 존재합니다.") / 2, pos_start.Y - 5);
+		printf("ERR :: 이미 직원이 존재합니다.");            // 오류메세지 출력
 		//동명이인일경우 생각해보기
-		gotoxy(pos_start.X-15, pos_start.Y+2);
+		gotoxy(pos_start.X - strlen("ERR :: 이미 직원이 존재합니다.") / 2, pos_start.Y - 3);
 		system("PAUSE");
+		system("cls");
 	}
 	else
 	{
 		people_num++;
-		struct people *node = malloc(sizeof(struct people));
+		staff node = malloc(sizeof(struct people));
 		strcpy(node->name, newname);
-		gotoxy(pos_start.X-2, pos_start.Y + 7);
+		gotoxy(pos_start.X - 10, pos_start.Y - 3);
 		printf("생년 월일 : ");
-		gotoxy(pos_start.X +10, pos_start.Y + 7);
+		gotoxy(pos_start.X + 2, pos_start.Y - 3);
 		scanf("%s", node->birth);
-		gotoxy(pos_start.X-4, pos_start.Y + 9);
+		gotoxy(pos_start.X - 12, pos_start.Y - 1);
 		printf("휴대폰 번호 : ");
-		gotoxy(pos_start.X + 10, pos_start.Y + 9);
+		gotoxy(pos_start.X + 2, pos_start.Y - 1);
 		scanf("%s", node->phone_num);
-		node->count = 3; //초기카운트 설정
+
+		
+
+		node->Schedule = (struct Schedule*)malloc(sizeof(struct Schedule) * 32);
+		node->count = 3; //일정 초기카운트 설정
+		node->WCount = 0; //근무 초기카운트 설정
+
+		for (int i = 0; i < 32; i++)
+		{
+			for (int j = 0; j < 24; j++)
+			{
+				node->Schedule[i].outside_duty[j] = 0;
+			}
+			for (int j = 0; j < 2; j++)
+			{
+				node->Schedule[i].work_schedule[j] = 0;
+				node->Schedule[i].day[j] = 0;
+			}
+		}
+
 		node->next = NULL;
+		system("cls");
 
 		if (head == NULL)
 		{
@@ -142,54 +159,45 @@ void Insert_Staff() {		// 직원 추가 함수
 	}
 }
 
-void Delete_Staff() {		// 직원 삭제 함수
+void Delete_Staff() {      // 직원 삭제 함수
 	staff node;
 	node = head;
-	
+
 	system("cls");
-	DrawCenterBox(50, 20);
+	DrawUI(50, 20);
 	getcenter();
 
-	pos_start.X = 6.0*onecols - 15;
-	pos_start.Y = 3.75*onerows - 8;
-
-	gotoxy(pos_start.X, pos_start.Y);
+	gotoxy(pos_start.X - strlen("* 직원 삭제 함수 *") / 2, pos_start.Y - 12);
 	printf("* 직원 삭제 함수 *");
-	gotoxy(pos_start.X -11, pos_start.Y + 10);
-	printf("삭제할 직원의 이름을 입력해주세요 : ");
-	gotoxy(pos_start.X + 25, pos_start.Y + 10);
+	gotoxy(pos_start.X - 15, pos_start.Y - 1);
+	printf("삭제할 직원의 이름 : ");
+	gotoxy(pos_start.X + 6, pos_start.Y - 1);
 	scanf("%s", newname);
 	Retrieve();
 
 
 	if (!retData)
 	{
-		pos_start.X = 6.0*onecols;
-		pos_start.Y = 3.75*onerows;
-
 		system("cls");
-		gotoxy(pos_start.X - 15, pos_start.Y);
-		printf("ERR :: 삭제할 직원이 없습니다.");				// 오류메세지 출력
-		gotoxy(pos_start.X - 15, pos_start.Y + 2);
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
+		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
 		system("PAUSE");
 	}
 	else {
 		system("cls");
-		DrawCenterBox(50, 20);
+		DrawUI(50, 20);
 		getcenter();
 
-		pos_start.X = 6.0*onecols - 15;
-		pos_start.Y = 3.75*onerows - 8;
-
-		gotoxy(pos_start.X, pos_start.Y);
+		gotoxy(pos_start.X - strlen("* 직원 삭제 함수 *") / 2, pos_start.Y - 12);
 		printf("* 직원 삭제 함수 *");
-		gotoxy(pos_start.X-2, pos_start.Y+5);
-		printf("%s님 의 정보입니다.\n", retData->name);
-		gotoxy(pos_start.X - 2, pos_start.Y + 7); 
+		gotoxy(pos_start.X - strlen("* 천은정 님의 정보입니다. *") / 2, pos_start.Y - 6);
+		printf("* %s님의 정보입니다. *", retData->name);
+		gotoxy(pos_start.X - 10, pos_start.Y - 3);
 		printf("직원 이름 : %s\n", retData->name);
-		gotoxy(pos_start.X - 2, pos_start.Y + 9);
+		gotoxy(pos_start.X - 10, pos_start.Y - 1);
 		printf("생년 월일 : %s\n", retData->birth);
-		gotoxy(pos_start.X - 2, pos_start.Y + 11);
+		gotoxy(pos_start.X - 12, pos_start.Y + 1);
 		printf("휴대폰 번호 : %s\n", retData->phone_num);
 
 		if (Check() == 1)
@@ -209,131 +217,113 @@ void Delete_Staff() {		// 직원 삭제 함수
 		else
 			return;
 	}
+	system("cls");
 }
 
-void Change_Staff() {		// 직원 수정 함수
+void Change_Staff() {      // 직원 수정 함수
 
 	system("cls");
-	DrawCenterBox(50, 20);
+	DrawUI(50, 20);
 	getcenter();
 
-	pos_start.X = 6.0*onecols - 15;
-	pos_start.Y = 3.75*onerows - 8;
-
-	gotoxy(pos_start.X, pos_start.Y);
+	gotoxy(pos_start.X - strlen("* 직원 수정 함수 *") / 2, pos_start.Y - 12);
 	printf("* 직원 수정 함수 *");
-	gotoxy(pos_start.X - 11, pos_start.Y + 10);
-	printf("수정할 직원의 이름을 입력해주세요 : ");
-	gotoxy(pos_start.X + 25, pos_start.Y + 10);
+	gotoxy(pos_start.X - 15, pos_start.Y - 1);
+	printf("수정할 직원의 이름 : ");
+	gotoxy(pos_start.X + 6, pos_start.Y - 1);
 	scanf("%s", newname);
 	Retrieve();
 
 	if (!retData)
 	{
-		pos_start.X = 6.0*onecols;
-		pos_start.Y = 3.75*onerows;
-
 		system("cls");
-		gotoxy(pos_start.X - 15, pos_start.Y);
-		printf("ERR :: 수정할 직원이 없습니다.");				// 오류메세지 출력
-		gotoxy(pos_start.X - 15, pos_start.Y + 2);
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
+		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
 		system("PAUSE");
-
 	}
 	else {
 		system("cls");
-		DrawCenterBox(50, 20);
+		DrawUI(50, 20);
 		getcenter();
 
-		pos_start.X = 6.0*onecols - 15;
-		pos_start.Y = 3.75*onerows - 8;
-
-		gotoxy(pos_start.X, pos_start.Y);
+		gotoxy(pos_start.X - strlen("* 직원 수정 함수 *") / 2, pos_start.Y - 12);
 		printf("* 직원 수정 함수 *");
-		gotoxy(pos_start.X - 2, pos_start.Y + 5);
-		printf("%s 님의 정보입니다.\n", retData->name);
-		gotoxy(pos_start.X - 2, pos_start.Y + 7);
+		gotoxy(pos_start.X - strlen("* 천은정 님의 정보입니다. *") / 2, pos_start.Y - 6);
+		printf("* %s님의 정보입니다. *", retData->name);
+		gotoxy(pos_start.X - 10, pos_start.Y - 3);
 		printf("직원 이름 : %s\n", retData->name);
-		gotoxy(pos_start.X - 2, pos_start.Y + 9);
+		gotoxy(pos_start.X - 10, pos_start.Y - 1);
 		printf("생년 월일 : %s\n", retData->birth);
-		gotoxy(pos_start.X - 2, pos_start.Y + 11);
+		gotoxy(pos_start.X - 12, pos_start.Y + 1);
 		printf("휴대폰 번호 : %s\n", retData->phone_num);
-
 
 		if (Check() == 1) {
 			system("cls");
-			DrawCenterBox(50, 20);
+			DrawUI(50, 20);
 			getcenter();
 
-			pos_start.X = 6.0*onecols - 15;
-			pos_start.Y = 3.75*onerows - 8;
-
-			gotoxy(pos_start.X - 2, pos_start.Y + 7);
-			printf("직원 이름 : ");
-			gotoxy(pos_start.X +10, pos_start.Y + 7);
+			gotoxy(pos_start.X - strlen("* 직원 수정 함수 *") / 2, pos_start.Y - 12);
+			printf("* 직원 수정 함수 *");
+			gotoxy(pos_start.X - 10, pos_start.Y - 3);
+			printf("직원 이름 : \n");
+			gotoxy(pos_start.X + 2, pos_start.Y - 3);
 			scanf("%s", retData->name);
-			gotoxy(pos_start.X - 2, pos_start.Y + 9);
-			printf("생년 월일 : ");
-			gotoxy(pos_start.X +10, pos_start.Y + 9);
+			gotoxy(pos_start.X - 10, pos_start.Y - 1);
+			printf("생년 월일 : \n");
+			gotoxy(pos_start.X + 2, pos_start.Y - 1);
 			scanf("%s", retData->birth);
-			gotoxy(pos_start.X - 4, pos_start.Y + 11);
-			printf("휴대폰 번호 : ");
-			gotoxy(pos_start.X +10, pos_start.Y + 11);
+			gotoxy(pos_start.X - 12, pos_start.Y + 1);
+			printf("휴대폰 번호 : \n");
+			gotoxy(pos_start.X + 2, pos_start.Y + 1);
 			scanf("%s", retData->phone_num);
 		}
 		else
 			return;
 	}
+	system("cls");
 }
 
-void Retrieve_Staff() {		// 직원 검색 함수
+void Retrieve_Staff() {      // 직원 검색 함수
 
 	system("cls");
-	DrawCenterBox(50, 20);
+	DrawUI(50, 20);
 	getcenter();
 
-	pos_start.X = 6.0*onecols - 15;
-	pos_start.Y = 3.75*onerows - 8;
-
-	gotoxy(pos_start.X, pos_start.Y);
+	gotoxy(pos_start.X - strlen("* 직원 검색 함수 *") / 2, pos_start.Y - 12);
 	printf("* 직원 검색 함수 *");
-	gotoxy(pos_start.X - 11, pos_start.Y + 10);
-	printf("검색할 직원의 이름을 입력해주세요 : ");
-	gotoxy(pos_start.X + 25, pos_start.Y + 10);
+	gotoxy(pos_start.X - 15, pos_start.Y - 1);
+	printf("검색할 직원의 이름 : ");
+	gotoxy(pos_start.X + 6, pos_start.Y - 1);
 	scanf("%s", newname);
 	Retrieve();
 
 	if (!retData)
 	{
-		pos_start.X = 6.0*onecols;
-		pos_start.Y = 3.75*onerows;
-
 		system("cls");
-		gotoxy(pos_start.X - 15, pos_start.Y);
-		printf("ERR :: 직원이 존재하지 않습니다..");				// 오류메세지 출력
-		gotoxy(pos_start.X - 15, pos_start.Y + 2);
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
+		printf("ERR :: 직원이 존재하지 않습니다.");            // 오류메세지 출력
+		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
 		system("PAUSE");
 	}
 	else {
 		system("cls");
-		DrawCenterBox(50, 20);
+		DrawUI(50, 20);
 		getcenter();
 
-		pos_start.X = 6.0*onecols - 15;
-		pos_start.Y = 3.75*onerows - 8;
-
-		gotoxy(pos_start.X, pos_start.Y);
+		gotoxy(pos_start.X - strlen("* 직원 검색 함수 *") / 2, pos_start.Y - 12);
 		printf("* 직원 검색 함수 *");
-		gotoxy(pos_start.X - 2, pos_start.Y + 5);
-		printf("%s 님의 정보입니다.\n", retData->name);
-		gotoxy(pos_start.X - 2, pos_start.Y + 7);
+		gotoxy(pos_start.X - strlen("* 천은정 님의 정보입니다. *") / 2, pos_start.Y - 6);
+		printf("* %s님의 정보입니다. *", retData->name);
+		gotoxy(pos_start.X - 10, pos_start.Y - 3);
 		printf("직원 이름 : %s\n", retData->name);
-		gotoxy(pos_start.X - 2, pos_start.Y + 9);
+		gotoxy(pos_start.X - 10, pos_start.Y - 1);
 		printf("생년 월일 : %s\n", retData->birth);
-		gotoxy(pos_start.X - 2, pos_start.Y + 11);
+		gotoxy(pos_start.X - 12, pos_start.Y + 1);
 		printf("휴대폰 번호 : %s\n", retData->phone_num);
-		gotoxy(pos_start.X - 6, pos_start.Y + 15);
+
+		gotoxy(pos_start.X - 18, pos_start.Y + 5);
 		system("PAUSE");
 	}
-
+	system("cls");
 }
