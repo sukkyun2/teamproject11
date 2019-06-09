@@ -20,48 +20,75 @@ void GetSelectedday(ldate date)
 {
 	char buf[11];
 	int cnt = 0, key;  // 입력 받은 글자 수와 키 
+	int i;
 
 	PrinttSelectdateInputbox();
-
-	key = getch();  // 한 글자 입력받음
-	buf[cnt++] = (char)key;   // 버퍼에 글자 저장하고 카운트 1 증가
-	PrinttSelectdateInputbox_beinput();
 	gotoxy(pos_start.X, pos_start.Y);
-	putchar("%c", buf[cnt]);  // 화면에 별 표시 
-
 	while (1)
 	{
 		key = getch();  // 한 글자 입력받음
 
-		if (key == ENTER_KEY)  // 엔터 키면 종료
+		if (key == ENTER_KEY)  // 엔터 또는 탭 키면 종료
 			break;
+		else if (key == BACKSPACE_KEY)	// 백스페이스 키
+		{
+			printf("\b");
+			fputs(" ", stdout);
+			printf("\b");
 
-		buf[cnt++] = (char)key;   // 버퍼에 글자 저장하고 카운트 1 증가  
-		putchar("%c", buf[cnt]);
+			if (cnt > 0)
+				cnt--;
+		}
+		if (cnt != 0)
+		{
+			gotoxy(pos_start.X + 2, pos_start.Y);
+			PrinttSelectdateInputbox_beinput();
+		}
+		else if (cnt == 0)
+		{
+			PrinttSelectdateInputbox();
+		}
+
+		buf[cnt++] = (char)key;   // 버퍼에 글자 저장하고 카운트 1 증가
+		gotoxy(pos_start.X + 2, pos_start.Y);
+		for (i = 0; i < cnt; i++)
+			printf("%c", buf[i]);  // 화면에 별 표시 
 
 		if (cnt == 10)  // 최대 크기를 넘어가면 종료 
 			break;
 	}
-	date.tm_year = 1000 * buf[0] + 100 * buf[1] + 10 * buf[2] + buf[3];
+
+	date.tm_year = 1000 * (buf[0]-'0') + 100 * (buf[1] - '0') + 10 * (buf[2] - '0') + (buf[3] - '0');
 
 	if (buf[6] == '-')
 	{
-		date.tm_mon = buf[5];
+		date.tm_mon = (buf[5] - '0');
 
 		if (buf[8] == '\n')
-			date.tm_day = buf[7];
+			date.tm_day = (buf[7] - '0');
 		else
-			date.tm_day = 10 * buf[7] + buf[8];
+			date.tm_day = 10 * (buf[7] - '0') + (buf[8] - '0');
 	}
 	else
 	{
-		date.tm_mon = 10 * buf[5] + buf[6];
+		date.tm_mon = 10 * (buf[5] - '0') + (buf[6] - '0');
 
 		if (buf[9] == '\n')
-			date.tm_day = buf[8];
+			date.tm_day = (buf[8] - '0');
 		else
-			date.tm_day = 10 * buf[8] + buf[9];
+			date.tm_day = 10 * (buf[8] - '0') + (buf[9] - '0');
 	}
+	textcolor(WHITE, BLACK);
+	gotoxy(pos_start.X + 2, pos_start.Y);
+	for (i = pos_start.X; i < pos_end.X; i++)
+		printf(" ");
+
+	if (date.tm_mon > 12)
+		PrintHomepage();
+	GetMonthDay(date);
+	if (date.tm_day > monthday)
+		PrintHomepage();
+	selected_day = date;
 }
 
 void GetMonthDay(ldate date)

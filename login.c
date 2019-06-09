@@ -17,7 +17,7 @@ void Login()
 	login* newid = (login*)malloc(sizeof(login));
 
 	setFullscreen();
-	
+
 	system("COLOR F0");
 
 	hImage = (HBITMAP)LoadImage(NULL, TEXT("screen.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
@@ -27,8 +27,8 @@ void Login()
 	if (s == 13) {
 		do {
 
-			system("cls"); 
-	
+			system("cls");
+			system("COLOR F0");
 			Print_login();
 
 
@@ -36,10 +36,10 @@ void Login()
 			scanf("%s", newid->ID);
 			if (strcmp(newid->ID, "0000") == 0) {      // 회원 정보 수정
 				system("COLOR F0");
-				system("cls"); 
+				system("cls");
 				Print_ChangeID();               // 회원 정보 수정 화면 출력
 				gotoxy(pos_start.X - 2, pos_start.Y - 5);
-				printf("%s", id.ID); 
+				printf("%s", id.ID);
 				gotoxy(pos_start.X - 2, pos_start.Y - 3);
 				printf("%s", id.PW);            // 기존 id,pw 출력
 				gotoxy(pos_start.X - 2, pos_start.Y + 1);
@@ -49,13 +49,12 @@ void Login()
 			}
 			else {                           // ID에 0000이 아니면
 				gotoxy(pos_start.X - 2, pos_start.Y);
-				get_pw(newid->PW, 5);
+				get_pw(newid->PW, 10);
 				if (strcmp(newid->ID, id.ID) != 0 || strcmp(newid->PW, id.PW) != 0) {   // id, pw가 일치하지않으면
-					system("cls"); 
+					system("cls");
+					system("COLOR F0");
 					MessageBox(NULL, TEXT(" ID,PW를 잘못입력하셨습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 				}
-
-
 			}
 		} while (strcmp(newid->ID, id.ID) != 0 || strcmp(newid->PW, id.PW) != 0);         // id,pw 일치할때까자지 반복
 	}
@@ -75,7 +74,7 @@ void Print_login()
 	gotoxy(pos_start.X - 7, pos_start.Y - 2);
 	printf("ID : ");
 	gotoxy(pos_start.X - 7, pos_start.Y);
-	printf("PW : "); 
+	printf("PW : ");
 
 	setFontColor(12);
 	gotoxy(pos_start.X - strlen("* ID에 0000을 입력하시면 ID,PW를 수정할 수 있습니다.") / 2, pos_start.Y + 11);
@@ -91,13 +90,13 @@ void Print_ChangeID()
 	hImage = (HBITMAP)LoadImage(NULL, TEXT("menu.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	print_menuimage(hImage);
 	gotoxy(pos_start.X - 7, pos_start.Y - 5);
-	printf("ID : "); 
+	printf("ID : ");
 	gotoxy(pos_start.X - 7, pos_start.Y - 3);
 	printf("PW : ");
 	gotoxy(pos_start.X - 11, pos_start.Y + 1);
 	printf("new ID : ");
 	gotoxy(pos_start.X - 11, pos_start.Y + 3);
-	printf("new PW : "); 
+	printf("new PW : ");
 
 }
 
@@ -165,7 +164,7 @@ void print_menuimage(HBITMAP hImage)
 
 	getcenter();
 	hOldBitmap = (HBITMAP)SelectObject(hMemDC, hImage);
-	BitBlt(mydc, 770, 240, 200*10, 200 * 20, hMemDC, 0, 0, SRCCOPY);
+	BitBlt(mydc, 770, 240, 200 * 10, 200 * 20, hMemDC, 0, 0, SRCCOPY);
 
 	SelectObject(hMemDC, hOldBitmap);
 	DeleteObject(hImage);

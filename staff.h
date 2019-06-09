@@ -34,16 +34,10 @@ typedef struct people   //직원
 	char name[10]; //이름
 	char birth[10]; //생년월일 
 	char phone_num[15]; //휴대폰 번호
-	int count;
+	float count;
 	int WCount;
 	schedule Schedule;
 	staff next;
-};
-typedef struct Work
-{
-	int weekdays_count; //평일 카운트
-	int weekend_count;  //주말 카운트
-
 };
 
 void Print_staffinfo();
@@ -57,3 +51,7 @@ void Retrieve();
 int Check();
 
 #endif
+
+
+
+

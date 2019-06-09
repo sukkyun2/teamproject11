@@ -9,6 +9,8 @@
 void Print_workinfo() {   // 메뉴 프린트
 
 	COORD tmp;
+	tmp.X= pos_start.X + 2;
+	tmp.Y = pos_start.Y + 2;
 	char* workMenuList[workMenuNum] = {
 	"근무 일정 자동 생성하기",
 	"근무 일정 검색하기",
@@ -132,7 +134,7 @@ void Sub_Make_Work(int part_time)
 
 		a[smallcountPeopleindex]->Schedule[i].work_schedule[part_time] = 1;
 
-		if (division_day(i) == 0)	//주말이면 +2
+		if (division_day(i) == 0)	//주말이면 +3															
 		{
 			a[smallcountPeopleindex]->WCount += 3;
 		}
@@ -313,7 +315,7 @@ int keycontrol(int key)
 staff search_work(staff a[], int small_a_count)
 {
 	int v;
-	v = random_index(small_a_count);
+	v = random_index(small_a_co`unt);
 
 	return a[v];
 }	//랜덤한 숫자에 있는 사람을 리턴

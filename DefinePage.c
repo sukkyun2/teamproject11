@@ -34,12 +34,18 @@ Select_Menu()
 					if (menu > MenuNum)
 						menu = 1;
 					Print_MainMenu(menu);
+					tmp.X = pos_start.X + 3 + strlen("메뉴 번호를 입력해주세요 : ");
+					tmp.Y = pos_start.Y + 2;
+					gotoxy(tmp.X, tmp.Y); printf("%d", menu);
 					break;
 				case UP_KEY:
 					menu--;
 					if (menu < 1)
 						menu = MenuNum;
 					Print_MainMenu(menu);
+					tmp.X = pos_start.X + 3 + strlen("메뉴 번호를 입력해주세요 : ");
+					tmp.Y = pos_start.Y + 2;
+					gotoxy(tmp.X, tmp.Y); printf("%d", menu);
 					break;
 				}
 			}
@@ -53,10 +59,10 @@ Select_Menu()
 				case '4':
 				case '5':
 					menu = (int)(ch - '0');
+					Print_MainMenu(menu);
 					tmp.X = pos_start.X + 3 + strlen("메뉴 번호를 입력해주세요 : ");
 					tmp.Y = pos_start.Y + 2;
 					gotoxy(tmp.X, tmp.Y); printf("%d", menu);
-					Print_MainMenu(menu);
 					break;
 				case TAP_KEY:
 					if (menu >= 1 && menu <= 5)

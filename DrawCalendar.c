@@ -65,10 +65,9 @@ void PrinttodayCalendar()
 }
 void PrinttselectedCalendar()
 {
-	GetToday();
 	GetDay(selected_day);
 	PrintCalendarform();
-	PrintCalendarMonth(today);
-	PrintCalendardate(today);
+	PrintCalendarMonth(selected_day);
+	PrintCalendardate(selected_day);
 }
 

@@ -20,15 +20,15 @@ void Print_staffinfo() {   // 메뉴 프린트
 	COORD tmp;
 
 	char* staffMenuList[staffMenuNum] = {
-	"직원 추가",
-	"직원 삭제",
-	"직원 수정",
-	"직원 검색",
-	"메인메뉴로 돌아가기"
+		"직원 추가",
+		"직원 삭제",
+		"직원 수정",
+		"직원 검색",
+		"메인메뉴로 돌아가기"
 	};
 	int i;
 
-	tmp.X = pos_start.X + 3;	tmp.Y = pos_start.Y + 2;
+	tmp.X = pos_start.X + 3;   tmp.Y = pos_start.Y + 2;
 	print_askMenunum();
 
 	for (i = 0; i < staffMenuNum; i++)
@@ -90,14 +90,16 @@ void Insert_Staff() {      // 직원 추가 함수
 
 	system("COLOR F0");
 
-	system("cls"); 
-	DrawCenterBox(50,20);
+	system("cls");
+	DrawCenterBox(50, 20);
 	getcenter();
 
 	staff prev;
 
 	hImage = (HBITMAP)LoadImage(NULL, TEXT("staffinsert.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	print_menuimage(hImage);
+
+	gotoxy(pos_start.X - 18, pos_start.Y - 5);
 
 	gotoxy(pos_start.X - 10, pos_start.Y - 5);
 	printf("직원 이름 : ");
@@ -107,7 +109,7 @@ void Insert_Staff() {      // 직원 추가 함수
 
 	if (retData != NULL)
 	{
-		system("cls"); 
+		system("cls");
 		MessageBox(NULL, TEXT("이미 직원이 존재합니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 	}
 	else
@@ -144,7 +146,7 @@ void Insert_Staff() {      // 직원 추가 함수
 		}
 
 		node->next = NULL;
-		system("cls"); 
+		system("cls");
 
 		if (head == NULL)
 		{
@@ -169,8 +171,8 @@ void Delete_Staff() {      // 직원 삭제 함수
 
 	system("COLOR F0");
 
-	system("cls"); 
-	DrawCenterBox(50,20);
+	system("cls");
+	DrawCenterBox(50, 20);
 	getcenter();
 
 	hImage = (HBITMAP)LoadImage(NULL, TEXT("staffdelete.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
@@ -184,12 +186,12 @@ void Delete_Staff() {      // 직원 삭제 함수
 
 	if (!retData)
 	{
-		system("cls"); 
+		system("cls");
 		MessageBox(NULL, TEXT("직원이 존재하지 않습니다"), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 	}
 	else {
-		system("cls"); 
-		DrawCenterBox(50,20);
+		system("cls");
+		DrawCenterBox(50, 20);
 		getcenter();
 
 		hImage = (HBITMAP)LoadImage(NULL, TEXT("staffdelete.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
@@ -218,13 +220,13 @@ void Delete_Staff() {      // 직원 삭제 함수
 			free(retData);
 		}
 	}
-	system("cls"); 
+	system("cls");
 }
 
 void Change_Staff() {      // 직원 수정 함수
 
-	system("cls"); 
-	DrawCenterBox(50,20);
+	system("cls");
+	DrawCenterBox(50, 20);
 	getcenter();
 
 	system("COLOR F0");
@@ -239,12 +241,12 @@ void Change_Staff() {      // 직원 수정 함수
 
 	if (!retData)
 	{
-		system("cls"); 
+		system("cls");
 		MessageBox(NULL, TEXT("직원이 존재하지 않습니다"), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 	}
 	else {
-		system("cls"); 
-		DrawCenterBox(50,20);
+		system("cls");
+		DrawCenterBox(50, 20);
 		getcenter();
 
 		hImage = (HBITMAP)LoadImage(NULL, TEXT("staffmodify.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
@@ -257,35 +259,39 @@ void Change_Staff() {      // 직원 수정 함수
 		printf("생년 월일 : %s\n", retData->birth);
 		gotoxy(pos_start.X - 12, pos_start.Y + 1);
 		printf("휴대폰 번호 : %s\n", retData->phone_num);
+		gotoxy(pos_start.X - 18, pos_start.Y + 5);
+		system("PAUSE");
 
-		if (Check() == 1) {
-			system("cls"); 
-			DrawCenterBox(50,20);
-			getcenter();
+		system("cls");
+		DrawCenterBox(50, 20);
+		getcenter();
 
-			hImage = (HBITMAP)LoadImage(NULL, TEXT("staffmodify.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-			print_menuimage(hImage);
-			gotoxy(pos_start.X - 10, pos_start.Y - 3);
-			printf("직원 이름 : \n");
-			gotoxy(pos_start.X + 2, pos_start.Y - 3);
-			scanf("%s", retData->name);
-			gotoxy(pos_start.X - 10, pos_start.Y - 1);
-			printf("생년 월일 : \n");
-			gotoxy(pos_start.X + 2, pos_start.Y - 1);
-			scanf("%s", retData->birth);
-			gotoxy(pos_start.X - 12, pos_start.Y + 1);
-			printf("휴대폰 번호 : \n");
-			gotoxy(pos_start.X + 2, pos_start.Y + 1);
-			scanf("%s", retData->phone_num);
-		}
+		hImage = (HBITMAP)LoadImage(NULL, TEXT("staffmodify.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+		print_menuimage(hImage);
+		gotoxy(pos_start.X - 10, pos_start.Y - 3);
+		printf("직원 이름 : \n");
+		gotoxy(pos_start.X + 2, pos_start.Y - 3);
+		scanf("%s", retData->name);
+		gotoxy(pos_start.X - 10, pos_start.Y - 1);
+		printf("생년 월일 : \n");
+		gotoxy(pos_start.X + 2, pos_start.Y - 1);
+		scanf("%s", retData->birth);
+		gotoxy(pos_start.X - 12, pos_start.Y + 1);
+		printf("휴대폰 번호 : \n");
+		gotoxy(pos_start.X + 2, pos_start.Y + 1);
+		scanf("%s", retData->phone_num);
+
+		system("cls");
+		MessageBox(NULL, TEXT("직원 정보가 수정되었습니다."), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
+
+		system("cls");
 	}
-	system("cls"); 
-}
 
+}
 void Retrieve_Staff() {      // 직원 검색 함수
 
-	system("cls"); 
-	DrawCenterBox(50,20);
+	system("cls");
+	DrawCenterBox(50, 20);
 	getcenter();
 
 
@@ -300,12 +306,12 @@ void Retrieve_Staff() {      // 직원 검색 함수
 
 	if (!retData)
 	{
-		system("cls"); 
+		system("cls");
 		MessageBox(NULL, TEXT("직원이 존재하지 않습니다"), TEXT("ERR"), MB_OK | MB_ICONSTOP);
 	}
 	else {
-		system("cls"); 
-		DrawCenterBox(50,20);
+		system("cls");
+		DrawCenterBox(50, 20);
 		getcenter();
 
 		hImage = (HBITMAP)LoadImage(NULL, TEXT("staffretrieve.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
@@ -322,5 +328,5 @@ void Retrieve_Staff() {      // 직원 검색 함수
 		gotoxy(pos_start.X - 18, pos_start.Y + 5);
 		system("PAUSE");
 	}
-	system("cls"); 
+	system("cls");
 }
