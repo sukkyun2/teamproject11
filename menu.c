@@ -6,12 +6,19 @@
 void Select_Menu()		// 메뉴 선택하는 함수
 {
 	int menu;
+	COORD tmp;
+
+	tmp.X = pos_start.X + 3;	tmp.Y = pos_start.Y + 2;
+	gotoxy(tmp.X, tmp.Y);
 
 	while (1) {
-		Print_Menu();
-		screen(163, 7);
+		tmp.X = pos_start.X + 3 + strlen("메뉴 번호를 입력해주세요 : ");
+		gotoxy(tmp.X, tmp.Y);
+
 		scanf("%d", &menu);
-		switch (menu) {
+
+		switch (menu)
+		{
 		case 1:
 			Staff();
 			break;
@@ -44,5 +51,6 @@ void Print_Menu() {	// 메뉴 프린트
 	printf("4. 인물검색");
 	screen(135, 17);
 	printf("5. 프로그램 종료");
+
 }
 
