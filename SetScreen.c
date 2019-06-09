@@ -1,6 +1,6 @@
 #include "SetScreen.h"
 
-void setfFullscreen()
+void setFullscreen()
 {
 	SetConsoleDisplayMode(	// <windows.h> 헤더파일 이용
 		GetStdHandle(STD_OUTPUT_HANDLE),
@@ -8,10 +8,12 @@ void setfFullscreen()
 		0
 	);
 	remove_scrollbar();
+	setInput();
+	textcolor(WHITE, BLACK);
 }
 //https://docs.microsoft.com/en-us/windows/console/setconsoledisplaymode
 
-COORD getfFullscreen()
+COORD getFullscreen()
 {
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	return GetLargestConsoleWindowSize(hOut);
@@ -19,10 +21,11 @@ COORD getfFullscreen()
 
 void getform()
 {
-	pos_start = getfFullscreen();
+	pos_full.X = getFullscreen().X;
+	pos_full.Y = getFullscreen().Y;
 
-	onecols = (int)((double)pos_start.X / 12.0);
-	onerows = (int)((double)(pos_start.Y - 6.0) / 7.5);
+	onecols = (int)((double)pos_full.X / 12.0);
+	onerows = (int)((double)(pos_full.Y - 6.0) / 8.5);
 }
 
 void gotoxy(int x, int y)
@@ -46,3 +49,29 @@ void remove_scrollbar()
 	SetConsoleScreenBufferSize(handle, new_size);
 }
 //출처: https://wowan.tistory.com/6?category=682208 [DevWarehouse]
+void setInput()
+{
+	// 기본 입출력 설정
+	hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	if (hStdin == INVALID_HANDLE_VALUE)
+		;
+
+	if (!GetConsoleMode(hStdin, &fdwSaveOldMode))
+		;
+	// 윈도우 10 필수 사항
+
+// 퀵 모드 해제
+	fdwMode = ENABLE_EXTENDED_FLAGS;
+	if (!SetConsoleMode(hStdin, fdwMode))
+		;
+	// 입출력 설정
+	fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
+	if (!SetConsoleMode(hStdin, fdwMode))
+		;
+}
+
+void textcolor(int foreground, int background)
+{
+	int color = foreground + background * 16;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}

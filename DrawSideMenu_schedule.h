@@ -1,4 +1,7 @@
 #pragma once
+#ifndef DRAWSIDEMENU_SCHEDULE_H
+#define DRAWSIDEMENU_SCHEDULE_H
 
-#include "DrawSideMenu.h"
+#include "DrawUI.h"
 
+#endif

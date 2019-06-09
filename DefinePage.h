@@ -2,33 +2,18 @@
 // 제어하지 않더라도 main함수의 직관성을 목적으로 함
 
 #pragma once
+#ifndef DEFINEPAGE_H
+#define DEFINEPAGE_H
+
 #include"DrawCalendar.h"
 #include"DrawMainMenu.h"
-#include"DrawStatusbar.h"
-#include "MouseControl.h"
 
-//로그인 화면
-#define LoginPage 0
-#define ChangeIDpage 1
-
-// MainPage
-#define HomePage 5	// 로그인 이후 처음 화면
-
-
-
-//직원관리
-#define StaffMainPage 10	//직원 관리 시작 시 페이지
-
-//일정관리
-
-
-//근무관리
-
-//인물검색
-
-int PAGE;
+#define getselectdaybutton 9
+#define gettodaybutton 0
 
 void PrintHomepage();
 void PrintStaffpage();
+void PrintSchedulepage();
+void PrintWorkpage();
 
-
+#endif

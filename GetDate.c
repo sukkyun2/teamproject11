@@ -11,21 +11,57 @@ void GetToday()
 
 	today.tm_year = (t->tm_year + 1900);
 	today.tm_mon = (t->tm_mon + 1);
-	today.tm_mday = (t->tm_mday);
+	today.tm_day = (t->tm_mday);
 	GetDay(today);
 }
 //http://mwultong.blogspot.com/2006/10/c-current-date-time.html
 
-void GetSelectedday()
+void GetSelectedday(ldate date)
 {
+	char buf[11];
+	int cnt = 0, key;  // 입력 받은 글자 수와 키 
+
+	PrinttSelectdateInputbox();
+
+	key = getch();  // 한 글자 입력받음
+	buf[cnt++] = (char)key;   // 버퍼에 글자 저장하고 카운트 1 증가
+	PrinttSelectdateInputbox_beinput();
+	gotoxy(pos_start.X, pos_start.Y);
+	putchar("%c", buf[cnt]);  // 화면에 별 표시 
+
 	while (1)
 	{
-		scanf_s("%d-%d-%d", &selcted_day.tm_year, &selcted_day.tm_mon, &selcted_day.tm_mday);
-		scanf_s("%*c");
-		if (selcted_day.tm_mon >= 1 && selcted_day.tm_mon <= 12)
+		key = getch();  // 한 글자 입력받음
+
+		if (key == ENTER_KEY)  // 엔터 키면 종료
+			break;
+
+		buf[cnt++] = (char)key;   // 버퍼에 글자 저장하고 카운트 1 증가  
+		putchar("%c", buf[cnt]);
+
+		if (cnt == 10)  // 최대 크기를 넘어가면 종료 
 			break;
 	}
-	GetDay(selcted_day);
+	date.tm_year = 1000 * buf[0] + 100 * buf[1] + 10 * buf[2] + buf[3];
+
+	if (buf[6] == '-')
+	{
+		date.tm_mon = buf[5];
+
+		if (buf[8] == '\n')
+			date.tm_day = buf[7];
+		else
+			date.tm_day = 10 * buf[7] + buf[8];
+	}
+	else
+	{
+		date.tm_mon = 10 * buf[5] + buf[6];
+
+		if (buf[9] == '\n')
+			date.tm_day = buf[8];
+		else
+			date.tm_day = 10 * buf[8] + buf[9];
+	}
 }
 
 void GetMonthDay(ldate date)

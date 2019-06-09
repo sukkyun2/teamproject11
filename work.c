@@ -1,39 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 #include "menu.h"
 #include "work.h"
 #include "staff.h"
 
+void Print_workinfo() {   // 메뉴 프린트
 
+	COORD tmp;
+	char* workMenuList[workMenuNum] = {
+	"근무 일정 자동 생성하기",
+	"근무 일정 검색하기",
+	"메인메뉴로 돌아가기"
+	};
+	int i;
 
-void Print_Work_Menu() {	// 일정 관리 메뉴 출력
+	print_askMenunum();
 
-	system("cls");
-
-	gotoxy(135, 7);
-	printf("메뉴 번호를 입력해주세요 : ");
-	gotoxy(135, 9);
-	printf("1. 근무일정 자동생성하기");
-	gotoxy(135, 11);
-	printf("2. 근무 일정 검색하기");
-	gotoxy(135, 13);
-	printf("3. 메인메뉴로 돌아가기");
+	for (i = 0; i < workMenuNum; i++)
+	{
+		tmp.Y += 2;
+		gotoxy(tmp.X, tmp.Y);
+		printf("%d. %s", i + 1, workMenuList[i]);
+	}
 }
+
+void Print_workMenu()
+{
+	getform();
+	PrinttodayCalendar();
+
+	PrintMenu();
+	Print_workinfo();
+}
+
 
 void Work() {		//근무관리 
 	int menu;
-	
+	COORD tmp;
+
 	while (1) {
-		Print_Work_Menu();
-		gotoxy(163, 7);
-		scanf("%d", &menu);
+		system("cls"); 
+		system("COLOR 07");
+		Print_workMenu();
+
+		menu = Ask_Menunum();
+
 		switch (menu) {
 		case 1:
-			Make_Work();   
+			Make_Work();
 			break;
 		case 2:
-			Search_Work();  
+			Search_Work();
 			break;
 		case 3:
 			PrintHomepage();
@@ -44,6 +63,8 @@ void Work() {		//근무관리
 
 void Make_Work()
 {
+	system("COLOR F0");
+
 	int day; //해당 월의 일수
 
 	day = calculate_day();
@@ -53,12 +74,10 @@ void Make_Work()
 	{
 		Sub_Make_Work(0);
 		Sub_Make_Work(1);
-		
-		
 	}
-	gotoxy(75, 23);
-	printf("*** 근무 자동 생성이 완료되었습니다 ***");
-	
+	system("cls"); 
+	MessageBox(NULL, TEXT("근무 자동생성이 완료되었습니다. "), TEXT("Check"), MB_OK | MB_ICONINFORMATION);
+
 }
 
 void Sub_Make_Work(int part_time)
@@ -102,7 +121,7 @@ void Sub_Make_Work(int part_time)
 			}
 		}
 
-		for (int x = 0; x<a_count; x++)
+		for (int x = 0; x < a_count; x++)
 		{
 			if (small_count == a[x]->WCount)
 			{
@@ -126,7 +145,7 @@ void Sub_Make_Work(int part_time)
 			a[smallcountPeopleindex]->WCount += 1;
 		}
 	}
-	
+
 }
 
 int calculate_day()
@@ -134,7 +153,7 @@ int calculate_day()
 {
 	struct tm *t;
 	time_t timer;
-	int year, mon, Fday,day;
+	int year, mon, Fday, day;
 
 	timer = time(NULL);
 	t = localtime(&timer);
@@ -180,16 +199,19 @@ int division_day(int i)
 
 void Search_Work()
 {
-	int day;
-	int x=0,y=0; //좌표 설정 변수
-	int count=0; //print count
+	system("COLOR F0");
+
+	int start = 0, last = 4, day;
+	int count = 0; //print count
+	int key, i = 0;
 
 	system("cls");
-	DrawUI(50, 20);
+	DrawCenterBox(50, 20);
 	getcenter();
 
-	gotoxy(pos_start.X - strlen("* 직원 검색 함수 *") / 2, pos_start.Y - 12);
-	printf("* 직원 검색 함수 *");
+	hImage = (HBITMAP)LoadImage(NULL, TEXT("일정.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+	print_menuimage(hImage);
+
 	gotoxy(pos_start.X - 15, pos_start.Y - 1);
 	printf("검색할 직원의 이름 : ");
 	gotoxy(pos_start.X + 6, pos_start.Y - 1);
@@ -198,64 +220,91 @@ void Search_Work()
 
 	if (!retData)
 	{
-		system("cls");
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 5);
-		printf("ERR :: 직원이 존재하지 않습니다.");      
-		gotoxy(pos_start.X - strlen("ERR :: 직원이 존재하지 않습니다.") / 2, pos_start.Y - 3);
-		system("PAUSE");
+		system("cls"); 
+		MessageBox(NULL, TEXT("직원이 존재하지 않습니다."), TEXT("ERR"), MB_OK | MB_ICONSTOP);
+
 	}
 	else {
-		system("cls");
-		DrawUI(50, 20);
-		getcenter();
-
-		gotoxy(pos_start.X - strlen("* 직원 검색 함수 *") / 2, pos_start.Y - 12);
-		printf("* 직원 검색 함수 *");
-		gotoxy(pos_start.X - strlen("* 천은정 님의 정보입니다. *") / 2, pos_start.Y - 6);
-
 		day = calculate_day();
-		printf("** %s 님의 근무 일정입니다 **",newname);
-		for (int i = 0; i < day; i++)
-		{
-			
-			if (retData->Schedule[i].work_schedule[0] == 1 && retData->Schedule[i].work_schedule[1] == 1)
+		while (i <= day) {
+			Print_Search_Work(start, last, count);
+			key = getch();
+
+			if (keycontrol(key) == 2)
 			{
-				if (count%4==0)
-				{
-					x += 10;
-				}
-				gotoxy(50+x, 23+y);
-				printf("%d일 : 19시~22시, 22시-1시",i+1);
-				y += 2;
-				count++;
-				
+				start += 4;
+				last += 4;
+				i += 4;
+
 			}
-			else if (retData->Schedule[i].work_schedule[0] == 1 && retData->Schedule[i].work_schedule[1] == 0)
+			else if (keycontrol(key) == 1)
 			{
-				if (count%4==0)
-				{
-					x += 10;
-				}
-				gotoxy(50 + x, 23 + y);
-				printf("%d일 : 19시~22시",i+1);
-				y += 2;
-				count++;
+				start -= 4;
+				last -= 4;
+				i -= 4;
 			}
-			else if (retData->Schedule[i].work_schedule[0] == 0 && retData->Schedule[i].work_schedule[1] == 1)
-			{
-				if (count%4==0)
-				{
-					x += 10;
-				}
-				gotoxy(50 + x, 23 + y);
-				printf("%d일 : 22시-1시",i+1);
-				y += 2;
-				count++;
-			}
-			
 		}
-		
-		system("PAUSE");
+	}
+}
+
+void Print_Search_Work(int start, int last, int count)
+{
+	int y = 2;
+
+	system("cls");
+	DrawCenterBox(50, 20);
+	getcenter();
+
+	hImage = (HBITMAP)LoadImage(NULL, TEXT("일정.bmp"), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+	print_menuimage(hImage);
+
+	gotoxy(pos_start.X - strlen("* 홍길동 님의 정보입니다. *") / 2, pos_start.Y - 6);
+
+
+	printf("** %s 님의 근무 일정입니다 **", newname);
+
+	for (int i = start; i < last; i++)
+	{
+
+		if (retData->Schedule[i].work_schedule[0] == 1 && retData->Schedule[i].work_schedule[1] == 1)
+		{
+			gotoxy(pos_start.X - 12, pos_start.Y - y);
+			printf("%d일 : 19시~22시, 22시-1시", i + 1);
+			y -= 2;
+			count++;
+
+		}
+		else if (retData->Schedule[i].work_schedule[0] == 1 && retData->Schedule[i].work_schedule[1] == 0)
+		{
+			gotoxy(pos_start.X - 12, pos_start.Y - y);
+			printf("%d일 : 19시~22시", i + 1);
+			y -= 2;
+			count++;
+		}
+		else if (retData->Schedule[i].work_schedule[0] == 0 && retData->Schedule[i].work_schedule[1] == 1)
+		{
+			gotoxy(pos_start.X - 12, pos_start.Y - y);
+			printf("%d일 : 22시-1시", i + 1);
+			y -= 2;
+			count++;
+		}
+	}
+
+	setFontColor(12);
+	gotoxy(pos_start.X - strlen("* 방향키로 화면을 넘겨주세요 *") / 2, pos_start.Y +10);
+	printf("* 방향키로 화면을 넘겨주세요 *");
+	resetFontColor();
+}
+
+int keycontrol(int key)
+{
+
+	switch (key) {
+	case 75:
+		return 1;		// 왼쪽 방향키 선택
+	case 77:
+		return 2;		// 오른쪽 방향키 선택
+
 	}
 }
 

@@ -6,8 +6,10 @@
 
 #include"staff.h"
 
-int main()
-{
+
+void main(){
+
 	Login();
 	PrintHomepage();
 }
+
