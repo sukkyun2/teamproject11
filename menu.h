@@ -6,6 +6,11 @@
 #include <string.h>
 
 #include "SetScreen.h"
+#include "staff.h"
+#include "schedule.h"
 
-void Print_Menu();
+#define _CRT_SECURE_NO_WARNINGS
+
 void Select_Menu();
+
+int Ask_Menunum(COORD* tmp);

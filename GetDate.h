@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <time.h>
 
+// 변수
+int weekday, monthday;
+
 typedef struct localdate
 {
 	int tm_mday;  /* Day of month (1--31) */
@@ -12,7 +15,6 @@ typedef struct localdate
 }ldate;
 
 ldate today, selcted_day;
-int weekday, monthday;
 
 void GetToday();				// 오늘 날짜 받기
 void GetSelectedday();			// 선택한 날짜 받기

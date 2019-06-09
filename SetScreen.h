@@ -1,9 +1,10 @@
 #pragma once
 
+#include <stdio.h>
 #include <Windows.h>
 
+int onecols, onerows;
 COORD pos_start, pos_end;
-int onerows, onecols;
 
 void setfFullscreen();		// 전체크기로 변화
 COORD getfFullscreen();		// 전체크기 측정

@@ -1,5 +1,6 @@
 #include"GetDate.h"
 
+// ÇÔ¼ö
 void GetToday()
 {
 	time_t timer;

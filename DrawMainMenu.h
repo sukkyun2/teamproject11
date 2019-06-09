@@ -9,8 +9,10 @@
 
 #define MenuNum 5
 
+// 변수
 int menu_width, menu_height;
 
+// 함수
 void getmenuSize();				// 메뉴의 출력할 크기 측정
 void PrintMenu_background();	// 메뉴의 틀 그리기
 void Print_MainMenuinfo();		// 메뉴 정보 출력

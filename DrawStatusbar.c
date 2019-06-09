@@ -1,5 +1,9 @@
 #include"DrawStatusbar.h"
 
+// 변수
+int statusbar_width, statusbar_height;
+
+// 함수
 void getStatusbarSize()
 {
 	getform();

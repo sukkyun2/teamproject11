@@ -1,4 +1,4 @@
-#include"login.h"
+#include "login.h"
 
 #include"DefinePage.h"
 
@@ -8,10 +8,6 @@
 
 int main()
 {
-	//Login();
-	system("cls");
+	Login();
 	PrintHomepage();
-	Select_Menu();		// 메뉴 선택하는 함수
-
-
 }

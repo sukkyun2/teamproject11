@@ -3,9 +3,8 @@
 #include "GetDate.h"
 #include "SetScreen.h"
 
-int calendar_width, calendar_height;
-
 void PrintSelectdateButton();		// 날짜 선택을 위한 버튼
+void PrinttSelectdateInputbox();
 void PrinttodaydateButton();		// 오늘 날짜로 돌아가는 버튼
 void getCalendarSize();				// 달력의 사이즈를 측정하는 함수(전체크기)
 void PrintCalendar_background();	// 달력의 형태를 출력하는 함수

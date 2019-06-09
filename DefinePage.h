@@ -5,6 +5,7 @@
 #include"DrawCalendar.h"
 #include"DrawMainMenu.h"
 #include"DrawStatusbar.h"
+#include "MouseControl.h"
 
 //로그인 화면
 #define LoginPage 0
@@ -25,8 +26,9 @@
 
 //인물검색
 
+int PAGE;
 
-int PrintHomepage();
-int PrintStaffpage();
+void PrintHomepage();
+void PrintStaffpage();
 
 

@@ -2,6 +2,7 @@
 
 #include "DrawMainMenu.h"
 
+// 함수
 void getmenuSize()
 {
 	pos_start.X = (int)((double)(8.5 * onecols));
@@ -73,10 +74,7 @@ void Print_MainMenuinfo() {	// 메뉴 프린트
 	};
 	int i;
 
-	tmp.X = pos_start.X + 3;	tmp.Y = pos_start.Y + 2;
-
-	gotoxy(tmp.X, tmp.Y);
-	printf("메뉴 번호를 입력해주세요 : ");
+	print_askMenunum(&tmp);
 
 	for (i = 0; i < MenuNum; i++)
 	{

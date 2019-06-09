@@ -1,5 +1,9 @@
 #include "DrawCalendar.h"
 
+// 변수
+int calendar_width, calendar_height;
+
+// 함수
 void getCalendarSize()
 {
 	pos_start.X = (int)((double)(0.5 * onecols));
@@ -178,6 +182,20 @@ void PrintSelectdateButton()
 	pos.Y = (int)((double)(1.0 * onerows) + 2);
 	gotoxy(pos.X, pos.Y);
 	printf("날짜 입력");
+}
+
+void PrinttSelectdateInputbox()
+{
+	int i;
+
+	COORD pos = getfFullscreen();
+	pos.X = (int)((double)(0.5 * onecols) + 2 + strlen("날짜 입력 "));
+	pos.Y = (int)((double)(1.0 * onerows) + 2);
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE);
+
+	for (i = pos.X; i < pos_end.X; i++)
+		printf(" ");
 }
 
 void PrinttodaydateButton()

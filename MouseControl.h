@@ -1,17 +1,19 @@
 #pragma once
-#include <stdio.h> 
-#include <Windows.h>
-#include "SetScreen.h"
+
 #include"DrawMainMenu.h"
 #include"DrawCalendar.h"
+#include"SetScreen.h"
 
-INPUT_RECORD rec;
-DWORD        dwNOER;
+COORD pos_start, pos_end;
+int onerows, onecols;
 
-COORD Mouse;
+HANDLE COUT;	// 콘솔 출력 장치
+HANDLE CIN;		// 콘솔 입력 장치
 
-//출처: https://10gleza.tistory.com/entry/C언어-콘솔창에서-마우스값-받아오기 [10글자의 게임개발 티스토리]
+DWORD mode;
+WORD key;
+COORD pos;
 
-void getClickMouse();
-
-void ControlMainmenu();
+int be_input();
+int get_input(WORD* vkey, COORD* pos);
+void MouseOn();
